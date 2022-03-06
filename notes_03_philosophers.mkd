@@ -1,0 +1,132 @@
+# Notes 03 Project Philosophers
+## Dining Philosophers Problem
+From [wikipedia article](https://en.wikipedia.org/wiki/Dining_philosophers_problem):
+The dining philosophers problem is an example problem often used in concurrent algorithm design to illustrate synchronization issues and techniques for resolving them.
+
+The problem was designed to illustrate the challenges of avoiding deadlock, a system state in which no progress is possible.
+
+### Problem statement
+
+Five philosophers, numbered from 0 through 4, live in a house where the table is laid for them; each philosopher has their own place at the table. Their only problem – besides those of philosophy – is that the dish served is a very difficult kind of spaghetti, that has to be eaten with two forks. There are two forks next to each plate, so that presents no difficulty: as a consequence, however, **no two neighbours may be eating simultaneously**.
+
+A very naive solution associates with each fork a binary semaphore with the initial value = 1 (indicating that the fork is free). But this solution – although it guarantees that no two neighbours are eating simultaneously – must be rejected because it contains the danger of the deadly embrace (**deadlock**). When all five philosophers get hungry simultaneously, each will grab his left-hand fork and from that moment onwards the group is stuck.
+
+In order to be able to give a formal description, we associate with each philosopher a state variable, "C" say, where C[i] = 0 means: philosopher i is thinking, C[i] = 1 means: philosopher i is hungry, C[i] = 2 means: philosopher i is eating. Each philosopher will go cyclically through the states 0, 1, 2, 0, ...
+
+Each philosopher must alternately think and eat. However, a philosopher can only eat spaghetti when they have both left and right forks. Each fork can be held by only one philosopher at a time and so a philosopher can use the fork only if it is not being used by another philosopher. After an individual philosopher finishes eating, they need to put down both forks so that the forks become available to others. A philosopher can only take the fork on their right or the one on their left as they become available, and they cannot start eating before getting both forks.
+
+The problem is how to design a discipline of behavior (a concurrent algorithm) such that no philosopher will starve; i.e., each can forever continue to alternate between eating and thinking, assuming that no philosopher can know when others may want to eat or think.
+
+### Solutions
+#### [Dijkstra's solution](https://en.wikipedia.org/wiki/Dining_philosophers_problem#Dijkstra's_solution)
+Dijkstra's solution uses one mutex, one semaphore per philosopher and one state variable per philosopher. This solution is more complex than the resource hierarchy solution. There is an example of a C++20 version of Dijkstra's solution with Tanenbaum's changes on the wikipedia article.
+
+#### [Resource hierarchy solution](https://en.wikipedia.org/wiki/Dining_philosophers_problem#Resource_hierarchy_solution)
+This solution assigns a partial order to the resources (the forks, in this case), and establishes the convention that all resources will be requested in order, and that no two resources unrelated by order will ever be used by a single unit of work at the same time. Here, the resources (forks) will be numbered 1 through 5 and each unit of work (philosopher) will always pick up the lower-numbered fork first, and then the higher-numbered fork, from among the two forks they plan to use. The order in which each philosopher puts down the forks does not matter. In this case, if four of the five philosophers simultaneously pick up their lower-numbered fork, only the highest-numbered fork will remain on the table, so the fifth philosopher will not be able to pick up any fork. Moreover, only one philosopher will have access to that highest-numbered fork, so he will be able to eat using two forks.
+
+The resource hierarchy solution is not fair. If philosopher 1 is slow to take a fork, and if philosopher 2 is quick to think and pick its forks back up, then philosopher 1 will never get to pick up both forks. A fair solution must guarantee that each philosopher will eventually eat, no matter how slowly that philosopher moves relative to the others. 
+
+#### [Limiting the number of diners in the table](https://en.wikipedia.org/wiki/Dining_philosophers_problem#Limiting_the_number_of_diners_in_the_table)
+A solution presented by William Stallings is to allow a maximum of n-1 philosophers to sit down at any time. The last philosopher would have to wait (for example, using a semaphore) for someone to finish dining before they "sit down" and request access to any fork. This guarantees at least one philosopher may always acquire both forks, allowing the system to make progress.
+
+#### [Resource starvation](https://en.wikipedia.org/wiki/Resource_starvation) might also occur independently of deadlock if a particular philosopher is unable to acquire both forks because of a timing problem. For example, there might be a rule that the philosophers put down a fork after waiting ten minutes for the other fork to become available and wait a further ten minutes before making their next attempt. This scheme eliminates the possibility of deadlock (the system can always advance to a different state) but still suffers from the problem of livelock. If all five philosophers appear in the dining room at exactly the same time and each picks up the left fork at the same time the philosophers will wait ten minutes until they all put their forks down and then wait a further ten minutes before they all pick them up again. 
+
+
+## Some Definitions
+
+### Concurrency
+From [Wikipedia](https://en.wikipedia.org/wiki/Concurrency_(computer_science)):
+
+Concurrency is the ability of different parts or units of a program, algorithm, or problem to be executed out-of-order or in partial order, without affecting the final outcome.
+
+In more technical terms, concurrency refers to the decomposability of a program, algorithm, or problem into order-independent or partially-ordered components or units of computation
+
+Concurrency is the composition of independently executing computations, and concurrency is not parallelism: concurrency is about dealing with lots of things at once but parallelism is about doing lots of things at once. Concurrency is about structure, parallelism is about execution, concurrency provides a way to structure a solution to solve a problem that may (but not necessarily) be parallelizable.
+
+Concurrent use of shared resources can be a source of indeterminacy leading to issues such as deadlocks, and resource starvation. A failure in concurrency control can result in data corruption from torn read or write operations. 
+
+Design of concurrent systems often entails finding reliable techniques for coordinating their execution, data exchange, memory allocation, and execution scheduling to minimize response time and maximise throughput.
+
+The base goals of concurrent programming include *correctness*, *performance* and *robustness*. Concurrent systems such as Operating systems and Database management systems are generally designed to operate indefinitely, including automatic recovery from failure, and not terminate unexpectedly.
+
+#### Methods for concurrency control
+From [Wikipedia](https://en.wikipedia.org/wiki/Concurrency_control)
+
+Many methods for concurrency control exist. The major methods, which have each many variants, and in some cases may overlap or be combined, are:
+
++ Locking (e.g., Two-phase locking - 2PL): Controlling access to data by locks assigned to the data. Access of a transaction to a data item (database object) locked by another transaction may be blocked (depending on lock type and access operation type) until lock release.
+
++ Serialization graph checking (also called Serializability, or Conflict, or Precedence graph checking): Checking for cycles in the schedule's graph and breaking them by aborts.
+
++ Timestamp ordering (TO): Assigning timestamps to transactions, and controlling or checking access to data by timestamp order.
+
++ Commitment ordering (or Commit ordering; CO) - Controlling or checking transactions' chronological order of commit events to be compatible with their respective precedence order.
+
+The most common mechanism type in database systems since their early days in the 1970s has been "Strong strict Two-phase locking" (SS2PL; also called "Rigorous scheduling" or "Rigorous 2PL") which is a special case (variant) of both "Two-phase locking (2PL)" and "Commitment ordering (CO)". It is pessimistic. The idea of the SS2PL mechanism is simple: "Release all locks applied by a transaction only after the transaction has ended."
+
+### [Lock](https://en.wikipedia.org/wiki/Lock_(computer_science))
+In computer science, a lock or mutex (from mutual exclusion) is a synchronization primitive: a mechanism that enforces limits on access to a resource when there are many threads of execution. A lock is designed to enforce a mutual exclusion concurrency control policy, and with a variety of possible methods there exists multiple unique implementations for different applications.
+
+- Binary semaphore: It is the simplest type of lock is. It provides exclusive access to the locked data. 
+
+Other schemes also provide shared access for reading data. Other widely implemented access modes are: exclusive, intend-to-exclude and intend-to-upgrade.
+
+- Spinlock: with a spinlock, the thread simply waits ("spins") until the lock becomes available.
+
+Careless use of locks can result in deadlock or livelock. A number of strategies can be used to avoid or recover from deadlocks or livelocks, both at design-time and at run-time. (The most common strategy is to standardize the lock acquisition sequences so that combinations of inter-dependent locks are always acquired in a specifically defined "cascade" order.).
+
+Some concurrency control strategies avoid some or all of the [disavantages of locks](https://en.wikipedia.org/wiki/Lock_(computer_science)#Disadvantages). For example, a [funnel](https://en.wikipedia.org/wiki/Funnel_(Concurrent_computing)) or [serializing tokens](https://en.wikipedia.org/wiki/Serializing_tokens) can avoid the biggest problem: deadlocks. Alternatives to locking include non-blocking synchronization methods, like lock-free programming techniques and transactional memory. However, such alternative methods often require that the actual lock mechanisms be implemented at a more fundamental level of the operating software. Therefore, they may only relieve the application level from the details of implementing locks, with the problems listed above still needing to be dealt with beneath the application. 
+
+### [Mutual Exclusion](https://en.wikipedia.org/wiki/Mutual_exclusion)
+Mutual exclusion is a property of concurrency control, which is instituted for the purpose of preventing race conditions. It is the requirement that one thread of execution never enters a critical section while a concurrent thread of execution is already accessing critical section, which refers to an interval of time during which a thread of execution accesses a shared resource, such as [Shared data objects, shared resources, shared memory].
+
+Mutual exclusion algorithm ensures that if a process is already performing write operation on a data object [critical section] no other process/thread is allowed to access/modify the same object until the first process has finished writing upon the data object [critical section] and released the object for other processes to read and write upon.
+
+The problem which mutual exclusion addresses is a problem of resource sharing: how can a software system control multiple processes' access to a shared resource, when each process needs exclusive control of that resource while doing its work? The mutual-exclusion solution to this makes the shared resource available only while the process is in a specific code segment called the *critical section*. It controls access to the shared resource by controlling each mutual execution of that part of its program where the resource would be used.
+
+A successful solution to this problem must have at least these two properties:
+
++ It must implement mutual exclusion: only one process can be in the critical section at a time.
+
++ It must be free of deadlocks: if processes are trying to enter the critical section, one of them must eventually be able to do so successfully, provided no process stays in the critical section permanently.
+
+Every process's program can be partitioned into four sections, resulting in four states. Program execution cycles through these four states in order:
+the cycle of sections of a single process
+
++ Non-Critical Section: Operation is outside the critical section; the process is not using or requesting the shared resource.
+
++ Trying: The process attempts to enter the critical section.
+
++ Critical Section: The process is allowed to access the shared resource in this section.
+
++ Exit: The process leaves the critical section and makes the shared resource available to other processes.
+
+If a process wishes to enter the critical section, it must first execute the trying section and wait until it acquires access to the critical section. After the process has executed its critical section and is finished with the shared resources, it needs to execute the exit section to release them for other processes' use. The process then returns to its non-critical section. 
+
+#### Types of mutual exclusion devices (synchronization primitives):
+
++ Locks (mutexes)
++ Readers–writer locks
++ Recursive locks
++ Semaphores
++ Monitors
++ Message passing
++ Tuple space
+
+### [Race conditions](https://en.wikipedia.org/wiki/Race_condition)
+A race condition or race hazard is the condition of an electronics, software, or other system where the system's substantive behavior is dependent on the sequence or timing of other uncontrollable events. It becomes a bug when one or more of the possible behaviors is undesirable. 
+
+### [Critical Section](https://en.wikipedia.org/wiki/Critical_section)
+In concurrent programming, concurrent accesses to shared resources can lead to unexpected or erroneous behavior, so parts of the program where the shared resource is accessed need to be protected in ways that avoid the concurrent access. This protected section is the critical section or critical region. It cannot be executed by more than one process at a time. Typically, the critical section accesses a shared resource, such as a data structure, a peripheral device, or a network connection, that would not operate correctly in the context of multiple concurrent accesses.
+
+### [Starvation](https://en.wikipedia.org/wiki/Resource_starvation)
+In computer science, resource starvation is a problem encountered in concurrent computing where a process is perpetually denied necessary resources to process its work. Starvation may be caused by errors in a scheduling or mutual exclusion algorithm, but can also be caused by resource leaks, and can be intentionally caused via a denial-of-service attack such as a fork bomb. 
+
+When starvation is impossible in a concurrent algorithm, the algorithm is called "starvation-free", "lockout-freed" or said to have "finite bypass". This property is an instance of liveness, and is one of the two requirements for any mutual exclusion algorithm, the other being correctness. The name "finite bypass" means that any process (concurrent part) of the algorithm is bypassed at most a finite number times before being allowed access to the shared resource.
+
+Starvation is usually caused by an overly simplistic scheduling algorithm. The algorithm should allocate resources so that no process perpetually lacks necessary resources.
+
+Starvation is normally caused by deadlock in that it causes a process to freeze. Two or more processes become deadlocked when each of them is doing nothing while waiting for a resource occupied by another program in the same set. On the other hand, a process is in starvation when it is waiting for a resource that is continuously given to other processes. "Starvation-freedom" is a stronger guarantee than the absence of deadlock: a mutual exclusion algorithm that must choose to allow one of two processes into a critical section and picks one arbitrarily is deadlock-free, but not starvation-free.
+
+A possible solution to starvation is to use a scheduling algorithm with priority queue that also uses the aging technique. Aging is a technique of gradually increasing the priority of processes that wait in the system for a long time. Aging is used to gradually increase the priority of a task, based on its waiting time in the ready queue.
+
