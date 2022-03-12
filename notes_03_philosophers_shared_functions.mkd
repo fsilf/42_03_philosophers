@@ -1,0 +1,81 @@
+# Notes 03 Philosophers Shared Allowed Functions
+
+## [Basics of multithreading in C](https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam)
+
+### What is a thread
+A thread is a task that runs linked to a process. 
+    - A process can have multiple threads
+	- threads can run other threads.
+
+### Mutex
+
+A mutex lock can stop the execution of a region of code for other threads trying to access the same "critical region". For exmaple, it deals with the problem of several threads trying to read/write the same memory space, by only allowing one thread at a time.
+
+In practice, we use mutex to tell if the critial region is locked or unlocked (see intro.c code for an example)
+
+### [What are Pthreads?](https://hpc-tutorials.llnl.gov/posix/what_are_pthreads/)
+Historically, hardware vendors have implemented their own proprietary versions of threads. These implementations differed substantially from each other making it difficult for programmers to develop portable threaded applications.
+
+In order to take full advantage of the capabilities provided by threads, a standardized programming interface was required.
+
+For UNIX systems, this interface has been specified by the IEEE POSIX 1003.1c standard (1995). Implementations adhering to this standard are referred to as "POSIX threads", or `Pthreads`.
+
+Pthreads are defined as a set of C language programming types and procedure calls, implemented with a `pthread.h` header/include file and a `thread` library - though this library may be part of another library, such as libc, in some implementations.
+
+### [Why Pthreads?](https://hpc-tutorials.llnl.gov/posix/why_pthreads/)
+#### Light Weight
+
+When compared to the cost of creating and managing a process, a thread can be created with much less operating system overhead. Managing threads requires fewer system resources than managing processes.
+
+#### Efficient Communications/Data Exchange
+For Pthreads there is no intermediate memory copy required because threads share the same address space within a single process. There is no data transfer, per se. It can be as efficient as simply passing a pointer.
+
+In the worst case scenario, Pthread communications become more of a cache-to-CPU or memory-to-CPU bandwidth issue. These speeds are much higher than MPI shared memory communications.
+
+#### Other Common Reasons
+Threaded applications offer potential performance gains and practical advantages over non-threaded applications in several other ways:
+
++ Overlapping CPU work with I/O: For example, a program may have sections where it is performing a long I/O operation. While one thread is waiting for an I/O system call to complete, CPU intensive work can be performed by other threads.
+
++ Priority/real-time scheduling: tasks which are more important can be scheduled to supersede or interrupt lower priority tasks.
+
++ Asynchronous event handling: tasks which service events of indeterminate frequency and duration can be interleaved. For example, a web server can both transfer data from previous requests and manage the arrival of new requests.
+
+### References
+* [Basics of multithreading in C](https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam)
+
+* [What are Pthreads?](https://hpc-tutorials.llnl.gov/posix/what_are_pthreads/)
+* [Why Pthreads?](https://hpc-tutorials.llnl.gov/posix/why_pthreads/)
+## `usleep()`
+From `usleep(3)` man (linux):
+`usleep` - suspend execution for microsecond intervals
+
+### Synopsis
+```{C}
+#include <unistd.h>
+int usleep(useconds_t usec);
+```
+### Description
+The usleep() function suspends execution of the calling thread for (at least) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
+### Return 
++ The usleep() function returns 0 on success.
++ On error, -1 is returned, with errno set to indicate the cause of the error.
+### Notes
+The type `useconds_t` is an unsigned integer type capable of holding integers in the range [0,1000000]. Programs will be more portable if they never mention this type explicitly. Use `unsigned int usecs`
+
+## `pthread_create()`
+From `pthread_create(3)` man (linux): 
+`pthread_create` - create a new thread
+### Synopsis
+```{C}
+#include <pthread.h>
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
+```
+Compile and link with `-pthread`
+### Description
+### Return
++ On success returns 0. 
++ On error returns an error number, and the contents of `*thread` are undefined.
+
+### Example
+There is an example program in the man page that demostrate the use of `pthread_create()`
