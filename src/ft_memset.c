@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:52:35 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/03/14 12:26:31 by fsilva-f         ###   ########.fr       */
+/*   Created: 2021/10/21 17:15:27 by fsilva-f          #+#    #+#             */
+/*   Updated: 2022/03/14 12:35:49 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+void	*ft_memset(void *str, int c, size_t len)
 {
-	t_args	args;
+	unsigned char	c_c;
+	size_t			i;
+	char			*ptr;
 
-	ft_memset(&args, -1, sizeof (t_args));
-	if (process_argv(argc, argv, &args))
-		return (1);
-	test_print_args(&args);
-	//pthread_create();
-	return (0);
+	c_c = (unsigned char)c;
+	i = 0;
+	ptr = (char *)str;
+	while (i < len)
+	{
+		ptr[i] = c_c;
+		i++;
+	}
+	return ((void *) ptr);
 }

@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   test_prints.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:52:35 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/03/14 12:26:31 by fsilva-f         ###   ########.fr       */
+/*   Created: 2022/03/14 12:12:04 by fsilva-f          #+#    #+#             */
+/*   Updated: 2022/03/14 12:43:21 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "philo.h"
 
-int	main(int argc, char *argv[])
+void	test_print_args(t_args *args)
 {
-	t_args	args;
-
-	ft_memset(&args, -1, sizeof (t_args));
-	if (process_argv(argc, argv, &args))
-		return (1);
-	test_print_args(&args);
-	//pthread_create();
-	return (0);
+	printf("num_philo:%zd\n", args->num_philo);
+	printf("time_life:%zd\n", args->time_life);
+	printf("time_eating:%zd\n", args->time_eating);
+	printf("time_unhungry:%zd\n", args->time_unhungry);
+	printf("num_loops:%zd\n", args->num_loops);
 }

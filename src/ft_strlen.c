@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
+/*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/12 18:52:35 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/03/14 12:26:31 by fsilva-f         ###   ########.fr       */
+/*   Created: 2021/10/21 17:35:13 by fsilva-f          #+#    #+#             */
+/*   Updated: 2022/03/14 12:37:14 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include <unistd.h>
 
-int	main(int argc, char *argv[])
+size_t	ft_strlen(const char *s)
 {
-	t_args	args;
+	size_t	i;
 
-	ft_memset(&args, -1, sizeof (t_args));
-	if (process_argv(argc, argv, &args))
-		return (1);
-	test_print_args(&args);
-	//pthread_create();
-	return (0);
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
