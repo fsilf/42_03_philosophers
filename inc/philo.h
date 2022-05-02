@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/03/14 12:33:42 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:53:12 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define PHILO_H
 #include <pthread.h>
 #include <unistd.h>
-
-typedef struct timeval	t_timeval;
 
 typedef struct	args
 {
@@ -35,14 +33,18 @@ typedef struct s_pick_fork
 	ssize_t			*forkr_num;
 	ssize_t			*philo_num;
 	char			*philo_str;
-	t_timeval		*init_tv;
+	struct timeval	*init_tv;
 }				t_pick_fork;
 
-ssize_t	atoi_philo(const char *str, ssize_t *ptr_num);
-void	*ft_memset(void *str, int c, size_t len);
-char	*ft_strjoin(const char *s1, const char *s2);
-size_t	ft_strlen(const char *s);
-int		process_argv(int argc, char **argv, t_args *args);
-void	test_print_args(t_args *args);
+ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
+long unsigned	convert_to_milisecs(struct timeval *time_all);
+void			*ft_memset(void *str, int c, size_t len);
+char			*ft_strjoin(const char *s1, const char *s2);
+size_t			ft_strlen(const char *s);
+long unsigned	ft_timeadd(long unsigned ms_start, long unsigned ms_end);
+long unsigned	ft_timesub(long unsigned ms_start, long unsigned ms_end);
+int				process_argv(int argc, char **argv, t_args *args);
+void			test_print_args(t_args *args);
+void			test_print_timeval(struct timeval *tv);
 
 #endif
