@@ -26,11 +26,18 @@ This solution assigns a partial order to the resources (the forks, in this case)
 
 The resource hierarchy solution is not fair. If philosopher 1 is slow to take a fork, and if philosopher 2 is quick to think and pick its forks back up, then philosopher 1 will never get to pick up both forks. A fair solution must guarantee that each philosopher will eventually eat, no matter how slowly that philosopher moves relative to the others. 
 
+#### Other solutions with examples
+
+* [Lecture notes Dining philosophers- CS560 -- Operating Systems - Jim Plank](https://web.archive.org/web/20131208203319/http://web.eecs.utk.edu/~plank/plank/classes/cs560/560/notes/Dphil/lecture.html)
+
+* [Thread Mentor](https://pages.mtu.edu/~shene/NSF-3/e-Book/index.html)
+* [GforG](https://www.geeksforgeeks.org/dining-philosophers-problem/): not accurate, but with some examples
+
 #### [Limiting the number of diners in the table](https://en.wikipedia.org/wiki/Dining_philosophers_problem#Limiting_the_number_of_diners_in_the_table)
 A solution presented by William Stallings is to allow a maximum of n-1 philosophers to sit down at any time. The last philosopher would have to wait (for example, using a semaphore) for someone to finish dining before they "sit down" and request access to any fork. This guarantees at least one philosopher may always acquire both forks, allowing the system to make progress.
 
-#### [Resource starvation](https://en.wikipedia.org/wiki/Resource_starvation) might also occur independently of deadlock if a particular philosopher is unable to acquire both forks because of a timing problem. For example, there might be a rule that the philosophers put down a fork after waiting ten minutes for the other fork to become available and wait a further ten minutes before making their next attempt. This scheme eliminates the possibility of deadlock (the system can always advance to a different state) but still suffers from the problem of livelock. If all five philosophers appear in the dining room at exactly the same time and each picks up the left fork at the same time the philosophers will wait ten minutes until they all put their forks down and then wait a further ten minutes before they all pick them up again. 
-
+#### [Resource starvation](https://en.wikipedia.org/wiki/Resource_starvation) 
+Might also occur independently of deadlock if a particular philosopher is unable to acquire both forks because of a timing problem. For example, there might be a rule that the philosophers put down a fork after waiting ten minutes for the other fork to become available and wait a further ten minutes before making their next attempt. This scheme eliminates the possibility of deadlock (the system can always advance to a different state) but still suffers from the problem of livelock. If all five philosophers appear in the dining room at exactly the same time and each picks up the left fork at the same time the philosophers will wait ten minutes until they all put their forks down and then wait a further ten minutes before they all pick them up again. 
 
 ## Some Definitions
 
@@ -67,7 +74,7 @@ The most common mechanism type in database systems since their early days in the
 ### [Lock](https://en.wikipedia.org/wiki/Lock_(computer_science))
 In computer science, a lock or mutex (from mutual exclusion) is a synchronization primitive: a mechanism that enforces limits on access to a resource when there are many threads of execution. A lock is designed to enforce a mutual exclusion concurrency control policy, and with a variety of possible methods there exists multiple unique implementations for different applications.
 
-- Binary semaphore: It is the simplest type of lock is. It provides exclusive access to the locked data. 
+- Binary semaphore: It is the simplest type of lock. It provides exclusive access to the locked data. 
 
 Other schemes also provide shared access for reading data. Other widely implemented access modes are: exclusive, intend-to-exclude and intend-to-upgrade.
 

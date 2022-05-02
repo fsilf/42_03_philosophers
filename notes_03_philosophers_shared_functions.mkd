@@ -1,6 +1,17 @@
 # Notes 03 Philosophers Shared Allowed Functions
 
-## [Basics of multithreading in C](https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam)
+## Threads (and locks) basics
+
+### References
+* [Basics of multithreading in C](https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam)
+
+* [What are Pthreads?](https://hpc-tutorials.llnl.gov/posix/what_are_pthreads/)
+
+* [Why Pthreads?](https://hpc-tutorials.llnl.gov/posix/why_pthreads/)
+
+* [Thread Mentor - Michigan Tech University](https://pages.mtu.edu/~shene/NSF-3/e-Book/FUNDAMENTALS/threads.html)
+
+* [Concurrency in C - University of Chicago](https://www.classes.cs.uchicago.edu/archive/2018/spring/12300-1/lab6.html)
 
 ### What is a thread
 A thread is a task that runs linked to a process. 
@@ -8,10 +19,7 @@ A thread is a task that runs linked to a process.
 	- threads can run other threads.
 
 ### Mutex
-
-A mutex lock can stop the execution of a region of code for other threads trying to access the same "critical region". For exmaple, it deals with the problem of several threads trying to read/write the same memory space, by only allowing one thread at a time.
-
-In practice, we use mutex to tell if the critial region is locked or unlocked (see intro.c code for an example)
+A mutex lock can stop the execution of a region of code for other threads trying to access the same "critical region". It deals with the problem of several threads trying to read/write the same memory space by only allowing one thread to access the set of data items protected by the mutex.
 
 ### [What are Pthreads?](https://hpc-tutorials.llnl.gov/posix/what_are_pthreads/)
 Historically, hardware vendors have implemented their own proprietary versions of threads. These implementations differed substantially from each other making it difficult for programmers to develop portable threaded applications.
@@ -41,11 +49,6 @@ Threaded applications offer potential performance gains and practical advantages
 
 + Asynchronous event handling: tasks which service events of indeterminate frequency and duration can be interleaved. For example, a web server can both transfer data from previous requests and manage the arrival of new requests.
 
-### References
-* [Basics of multithreading in C](https://dev.to/quantumsheep/basics-of-multithreading-in-c-4pam)
-
-* [What are Pthreads?](https://hpc-tutorials.llnl.gov/posix/what_are_pthreads/)
-* [Why Pthreads?](https://hpc-tutorials.llnl.gov/posix/why_pthreads/)
 ## `usleep()`
 From `usleep(3)` man (linux):
 `usleep` - suspend execution for microsecond intervals
@@ -56,12 +59,34 @@ From `usleep(3)` man (linux):
 int usleep(useconds_t usec);
 ```
 ### Description
-The usleep() function suspends execution of the calling thread for (at least) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
+The `usleep()` function suspends execution of the calling thread for (*at least*) usec microseconds. The sleep may be lengthened slightly by any system activity or by the time spent processing the call or by the granularity of system timers.
 ### Return 
-+ The usleep() function returns 0 on success.
++ The `usleep()` function returns 0 on success.
 + On error, -1 is returned, with errno set to indicate the cause of the error.
 ### Notes
 The type `useconds_t` is an unsigned integer type capable of holding integers in the range [0,1000000]. Programs will be more portable if they never mention this type explicitly. Use `unsigned int usecs`
+
+## `gettimeofday()`
+### Synopsis
+```{C}
+#include <sys/time.h>
+int gettimeofday(struct timeval *tv, struct timezone *tz);
+```
+### Description
+The tv argument is a struct timeval (as specified in <sys/time.h>):
+```{C}
+struct timeval {
+	time_t		tv_sec;		/* seconds */
+	suseconds_t	tv_usec;	/* microseconds */
+};
+```
+gives the number of seconds	and microseconds since the Epoch (see time(2)).
+
+The use of the timezone structure is obsolete; the tz argument should normally be specified as NULL.
+### Return
+gettimeofday returns 0 for success, or -1 for failure (sets errno).
+### Notes
+Macros for operating on timeval structures are described in `timeradd(3)`.
 
 ## `pthread_create()`
 From `pthread_create(3)` man (linux): 
