@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 11:40:17 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 18:34:10 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ int				process_argv(int argc, char **argv, t_args *args);
 void			test_print_args(t_args *args);
 void			test_print_timeval(struct timeval *tv);
 void			*thread_log_add(void *arg);
-void	 		*thread_print_queue(void *arg);
+void			*thread_print_queue(void *arg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 17:29:24 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 13:04:10 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:47:14 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,9 @@ int main(void)
 	}
 	free(resval);
 	log_free_all(head_log);
+	pthread_mutex_destroy(&mutex_queue);
 	return (0);
 }
+/*
+ gcc -Wall -Wextra -Werror -fsanitize=address tests/test_log.c thread_functions.c log.c log_print.c log_search_min.c ft_memset.c ft_strdup.c ft_strlen.c timer.c -I../inc/
+ */

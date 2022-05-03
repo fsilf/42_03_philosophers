@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:17:05 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 12:54:13 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:50:32 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,35 +47,54 @@ static int	log_print(t_log *log)
 	return (0);
 }
 
-int	log_print_loop(t_log **head_log, pthread_mutex_t *mutex_queue)
+static int	check_null_head_log(t_log **head_log)
 {
-	t_log	*lowest;
-
 	if (head_log == NULL)
 	{
 		write(2, "head_log == NULL\n", 17);
 		return (1);
 	}
+	return (0);
+}
+
+static int	process_lowest(t_log **head_log, t_log *lowest, \
+							pthread_mutex_t *mutex_queue)
+{
+	if (lowest != NULL)
+	{
+		if (log_print(lowest))
+			return (1);
+		if (lowest->type == 'd')
+			return (0);
+		if (log_remove(head_log, lowest))
+			return (1);
+		pthread_mutex_unlock(mutex_queue);
+	}
+	else
+	{
+		pthread_mutex_unlock(mutex_queue);
+		usleep(10);
+	}
+	return (2);
+}
+
+int	log_print_loop(t_log **head_log, pthread_mutex_t *mutex_queue)
+{
+	t_log	*lowest;
+	int		res;
+
+	res = 2;
+	if (check_null_head_log(head_log))
+		return (1);
 	lowest = NULL;
 	while (1)
 	{
 		pthread_mutex_lock(mutex_queue);
 		lowest = log_search_min(head_log);
-		if (lowest != NULL)
-		{
-			if (log_print(lowest))
-				return (1);
-			if (lowest->type == 'd')
-				return (0);
-			if (log_remove(head_log, lowest))
-				return (1);
-			pthread_mutex_unlock(mutex_queue);
-		}
-		else
-		{
-			pthread_mutex_unlock(mutex_queue);
-			usleep(10);
-		}
+		res = process_lowest(head_log, lowest, mutex_queue);
+		if (res != 2)
+			return (res);
+		//gestionar exits
 		usleep(1);
 	}
 }
