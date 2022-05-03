@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 15:29:11 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/02 18:18:30 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 11:23:41 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,15 @@ t_log	*log_new(long unsigned time, char type, ssize_t philo)
 	return (log_elem);
 }
 
-void	log_addback(t_log **head_log, t_log *new_log)
+void	log_addback(t_log **head_log, t_log *new_log, \
+						pthread_mutex_t *mutex_queue)
 {
 	t_log	*last;
 
+	if (head_log == NULL)
+		return ;
+	//gestionar exits
+	pthread_mutex_lock(mutex_queue);
 	last = log_last(*head_log);
 	if (last != NULL)
 	{
@@ -51,6 +56,9 @@ void	log_addback(t_log **head_log, t_log *new_log)
 		new_log->num = 1;
 		*head_log = new_log;
 	}
+	pthread_mutex_unlock(mutex_queue);
+	return ;
+	//gestionar exits
 }
 
 t_log	*log_last(t_log *head_log)

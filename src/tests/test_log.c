@@ -6,10 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 17:29:24 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/02 18:31:19 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 13:04:10 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -25,9 +26,14 @@ int main(void)
 	long unsigned	ms_init;
 	long unsigned	ms_time;
 	ssize_t			i;
+	pthread_t		thread_print_id;
+	pthread_t		thread_add_id;
+	pthread_mutex_t	mutex_queue;
+	t_queue_args	queue_args;
 	//char			log_types[5] = {'f', 'e', 's', 't', 'd'};
 	char			log_types[5] = {'d', 'e', 's', 't', 'f'};
 	ssize_t			philos[5] = {1, 2, 3, 4, 5};
+	void			*resval;
 
 	logs = NULL;
 	logs = (t_log **)malloc(sizeof (t_log *) * 5);
@@ -49,6 +55,13 @@ int main(void)
 	printf("ms_init: %ld\n", ms_init);
 	sleep(1);
 	i = 0;
+	if (pthread_mutex_init(&mutex_queue, NULL))
+	{
+		perror("mutex_init queue:");
+		return (1);
+	}
+	queue_args.head_log = head_log;
+	queue_args.mutex = &mutex_queue;
 	while (i < 5)
 	{
 		ft_memset(&log_time, 0, sizeof (struct timeval));
@@ -60,12 +73,38 @@ int main(void)
 		printf("ms_time after sub log[%zd]: %ld\n", i, ms_time);
 		ms_time = ms_time - (10 * i);
 		logs[i] = log_new(ms_time, log_types[i], philos[i]);
-		log_addback(head_log, logs[i]);
+		queue_args.log = logs[i];
+		if (pthread_create(&thread_add_id, NULL, &thread_log_add, &queue_args))
+		{
+			perror("pthread_create log_add");
+			return (1);
+		}
+		if (pthread_detach(thread_add_id))
+		{
+			perror("pthread_detach log_add");
+			return (1);
+		}
 		usleep(1000);
 		i++;
 	}
-	if (log_print_loop(head_log))
-		write(2, "log_print_loop return\n", 22);
+	if (pthread_create(&thread_print_id, NULL, &thread_print_queue, &queue_args))
+	{
+		perror("pthread_create queue");
+		return (1);
+	}
+	if (pthread_join(thread_print_id, &resval))
+	{
+		perror("pthread_join queue");
+		return (1);
+	}
+	if ((char *)resval != NULL)
+	{
+		printf("error in log_print_loop:%s\n", (char *)resval);
+		free(resval);
+		log_free_all(head_log);
+		return (1);
+	}
+	free(resval);
 	log_free_all(head_log);
 	return (0);
 }

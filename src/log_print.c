@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 16:17:05 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/02 18:12:51 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:54:13 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	log_print(t_log *log)
 	msg = get_message(log->type);
 	if (msg == NULL)
 	{
-		write(2, "get_message:", 12);
+		write(2, "get_message error", 18);
 		return (1);
 	}
 	printf("%ld %zd %s\n", log->time, log->philo, msg);
@@ -47,7 +47,7 @@ static int	log_print(t_log *log)
 	return (0);
 }
 
-int	log_print_loop(t_log **head_log)
+int	log_print_loop(t_log **head_log, pthread_mutex_t *mutex_queue)
 {
 	t_log	*lowest;
 
@@ -59,6 +59,7 @@ int	log_print_loop(t_log **head_log)
 	lowest = NULL;
 	while (1)
 	{
+		pthread_mutex_lock(mutex_queue);
 		lowest = log_search_min(head_log);
 		if (lowest != NULL)
 		{
@@ -68,9 +69,13 @@ int	log_print_loop(t_log **head_log)
 				return (0);
 			if (log_remove(head_log, lowest))
 				return (1);
+			pthread_mutex_unlock(mutex_queue);
 		}
 		else
+		{
+			pthread_mutex_unlock(mutex_queue);
 			usleep(10);
+		}
 		usleep(1);
 	}
 }
