@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 18:34:10 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 21:34:31 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 
 typedef struct args
 {
-	ssize_t	num_philo;
-	ssize_t	time_life;
-	ssize_t	time_eating;
-	ssize_t	time_unhungry;
-	ssize_t	num_loops;
+	ssize_t			num_philo;
+	ssize_t			time_life;
+	ssize_t			time_eating;
+	ssize_t			time_unhungry;
+	ssize_t			num_loops;
+	long unsigned	ms_init;
 }				t_args;
 
 typedef struct s_log
@@ -34,6 +35,7 @@ typedef struct s_log
 	struct s_log	*next;
 }	t_log;
 
+/*
 typedef struct s_pick_fork
 {
 	pthread_mutex_t	*forkl_lock;
@@ -45,6 +47,7 @@ typedef struct s_pick_fork
 	char			*philo_str;
 	struct timeval	*init_tv;
 }				t_pick_fork;
+*/
 
 typedef struct s_queue_agrs
 {
@@ -52,6 +55,20 @@ typedef struct s_queue_agrs
 	pthread_mutex_t	*mutex;
 	t_log			*log;
 }	t_queue_args;
+
+typedef struct s_forks_args
+{
+	pthread_mutex_t	**mutex_fork;
+	t_args			*args;
+	ssize_t			philo;
+}	t_forks_args;
+
+typedef struct s_check_life
+{
+	t_args	*args;
+	ssize_t	*philo_lives;
+	t_log	**head_log;
+}	t_check_life;
 
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 long unsigned	convert_to_milisecs(struct timeval *time_all);

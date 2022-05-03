@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:12:04 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 18:27:26 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 20:51:17 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	test_print_args(t_args *args)
 	printf("time_eating:%zd\n", args->time_eating);
 	printf("time_unhungry:%zd\n", args->time_unhungry);
 	printf("num_loops:%zd\n", args->num_loops);
+	printf("init_time ms_init:%ld\n", args->ms_init);
 }
 
 void	test_print_timeval(struct timeval *tv)

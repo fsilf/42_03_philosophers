@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 11:24:32 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 12:59:00 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 21:53:03 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,27 @@ void	*thread_log_add(void *arg)
 	queue_args = arg;
 	log_addback(queue_args->head_log, queue_args->log, queue_args->mutex);
 	return (NULL);
+}
+
+void	*thread_philo(void *arg)
+{
+	t_forks_args	*forks_args;
+
+	fork_args = arg;
+	while (1)
+	{
+		take_forks(forks_args->mutex_fork, forks_args->args, \
+								forks_args->philo);
+		gettimeofday()
+	//00! working;
+
+}
+
+void	*thread_lives(void *arg)
+{
+	t_check_life	*lives_args;
+
+	lives_args = arg;
+	check_lives(lives_args->args, lives_args->philo_lives);
+	//!00 working
 }
