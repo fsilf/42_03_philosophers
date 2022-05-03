@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:12:04 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/02 13:29:00 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 18:27:26 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	test_print_args(t_args *args)
 
 void	test_print_timeval(struct timeval *tv)
 {
-	printf("secs:%d, usecs:%d\n", (unsigned int)tv->tv_sec, (unsigned int)tv->tv_usec);
+	printf("secs:%d, usecs:%d\n", \
+			(unsigned int)tv->tv_sec, (unsigned int)tv->tv_usec);
 }

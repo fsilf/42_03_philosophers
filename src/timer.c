@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/02 14:51:27 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/03 18:27:59 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ long unsigned	ft_timeadd(long unsigned ms_start, long unsigned ms_end)
 	}
 	return (res);
 }
+
 long unsigned	convert_to_milisecs(struct timeval *time_all)
 {
 	long unsigned	time_ms;
