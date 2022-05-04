@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:52:35 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 21:52:33 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:26:00 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,16 @@ static ssize_t	*set_philo_lives(t_args args)
 		philo_lives[i] = args.ms_init;
 		i++;
 	}
-	return (philo_lives)
-
+	return (philo_lives);
 }
 
-static t_queue_args *set_queue_args(void)
-{
-}
 
 int	main(int argc, char *argv[])
 {
 	t_args			args;
 	ssize_t			*philo_lives;
 	t_queue_args	*queue_args;
+	phtread_
 
 	ft_memset(&args, -1, sizeof (t_args));
 	if (process_argv(argc, argv, &args))
@@ -62,9 +59,11 @@ int	main(int argc, char *argv[])
 	if (philo_lives == NULL)
 		return (1);
 	test_print_args(&args);
-	//00! working build arguments for check_life.c
-	queue_args = set_queue_args()
-	send_philo_lives()
+	if (set_queue_args(&queue_args))
+		return (1);
+	send_start_philos(args, philos_lives, queue_args);// 00! working create 
+	send_check_lives(args, philo_lives, queue_args)
 	free(philo_lives);
+	free_queue_args(queue_args);
 	return (0);
 }

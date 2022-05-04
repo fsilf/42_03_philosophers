@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 20:51:47 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 21:52:28 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:26:20 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,6 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include "philo.h"
-
-static int	send_log(t_queue_args *queue_args)
-{
-	pthread_t	thread_add_id;
-
-	if (pthread_create(&thread_add_id, NULL, &thread_log_add, &queue_args))
-	{
-		perror("pthread_create log_add");
-		return (1);
-	}
-	if (pthread_detach(thread_add_id))
-	{
-		perror("pthread_detach log_add");
-		return (1);
-	}
-	return (0);
-}
 
 int	check_lives(t_args *args, ssize_t *philo_lives, t_queue_args *queue_args)
 {
@@ -51,9 +34,8 @@ int	check_lives(t_args *args, ssize_t *philo_lives, t_queue_args *queue_args)
 			if (ms_time > philo_lives[i])
 			{
 				queue_args.log = log_new(ms_time, 'd', i);
-				if (send_log(queue_args))
+				if (send_log(queue_args, 'n'))
 					return (1);
-				//gestionar exits
 				return (0);
 			}
 			i++;
@@ -62,8 +44,26 @@ int	check_lives(t_args *args, ssize_t *philo_lives, t_queue_args *queue_args)
 	}
 }
 
-int	send_check_lives(t_args *args, ssize_t *philo_lives, t_queue_args *queue_args)
+pthread_t	send_check_lives(t_args *args, ssize_t *philo_lives, \
+						t_queue_args *queue_args)
 {
-	pthread_t	pthread_lives_id;
+	pthread_t		pthread_lives_id;
+	t_check_life	lives_args;
 
+	thread_res = -1;
+	lives_args.args = args;
+	lives_args.philo_lives = philo_lives;
+	lives_args.queue_args = queue_args;
+	if (pthread_create(pthread_lives_id, NULL, &thread_lives, \
+									lives_args))
+	{
+		perror("send_check_lives: pthread_create:");
+		return (1);
+	}
+	if (pthread_join(pthread_lives_id))
+	{
+		perror("send_check_live: thread_join");
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 18:26:38 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/04 15:01:33 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int	process_argv(int argc, char **argv, t_args *args)
 			error_args(\
 			"wrong format number_of_times_a_philosopher_must_eat\n", &err);
 	}
+	args->time_think = 5;//00! check different values
 	return (err);
 }
