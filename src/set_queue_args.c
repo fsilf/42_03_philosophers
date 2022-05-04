@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:54:43 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/04 12:15:22 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/04 21:01:50 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ static int	init_queue_args(t_queue_args **queue_args, \
 	return (0);
 }
 
-int	t_queue_args *set_queue_args(void)
+int	t_queue_args *set_queue_args(t_queue_args **queue_args)
 {
 	t_log			**head_log;
-	t_queue_args	*queue_args;
 	pthread_mutex_t	*mutex_queue;
 
+	*queue_args = NULL;
 	if (init_head_log(&head_log))
 		return (1);
 	if (init_mutex_queue(&mutex_queue))
 		return (1);
-	if (init_queue_args(&queue_args, head_log, mutex_queue))
+	if (init_queue_args(queue_args, head_log, mutex_queue))
 		return (1);
 	return (0);
 }

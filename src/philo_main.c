@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:52:35 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/04 14:26:00 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/04 22:00:12 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,27 +43,44 @@ static ssize_t	*set_philo_lives(t_args args)
 	return (philo_lives);
 }
 
+static int	set_end_and_mutex(t_args *args)
+{
+	args->end = 0;
+	if (pthread_mutex_init(&(args->mutex_end), NULL))
+	{
+		perror("set_end_and_mutex: mutex init:");
+		return (1);
+	}
+	return (0);
+}
 
 int	main(int argc, char *argv[])
 {
 	t_args			args;
 	ssize_t			*philo_lives;
 	t_queue_args	*queue_args;
-	phtread_
 
 	ft_memset(&args, -1, sizeof (t_args));
 	if (process_argv(argc, argv, &args))
 		return (1);
 	set_init_time(&args);
+	if (set_end_and_mutex(&args))
+		return (1);
 	philo_lives = set_philo_lives(args);
 	if (philo_lives == NULL)
 		return (1);
 	test_print_args(&args);
 	if (set_queue_args(&queue_args))
+	{
+		free_main(philo_lives, queue_args, &args);
 		return (1);
-	send_start_philos(args, philos_lives, queue_args);// 00! working create 
-	send_check_lives(args, philo_lives, queue_args)
-	free(philo_lives);
-	free_queue_args(queue_args);
+	}
+	if (send_start_philos(args, philos_lives, queue_args))
+	{
+		free_main(philo_lives, queue_args, &args);
+		return (1);
+	}	
+	send_check_lives(args, philo_lives, queue_args);
+	free_main(philo_lives, queue_args, &args);
 	return (0);
 }

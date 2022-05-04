@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/04 15:01:46 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/04 21:15:17 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ typedef struct args
 	ssize_t			time_think;
 	ssize_t			num_loops;
 	long unsigned	ms_init;
+	pthread_mutex_t	mutex_end;
+	ssize_t			end;
 }				t_args;
 
 typedef struct s_log
@@ -41,14 +43,17 @@ typedef struct s_queue_agrs
 	t_log			**head_log;
 	pthread_mutex_t	*mutex;
 	t_log			*log;
+	ssize_t			philo;
 }	t_queue_args;
 
 typedef struct s_philo_args
 {
 	t_args			*args;
 	ssize_t			*philo_lives;
+	ssize_t			*forks;
 	t_log			**head_log;
-	pthread_mutex_t	**mutex_fork;
+	pthread_mutex_t	*mutex_fork;
+	pthread_mutex_t	*mutex_philo;
 	ssize_t			philo;
 }	t_philo_args;
 
@@ -62,6 +67,7 @@ typedef struct s_check_life
 
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 long unsigned	convert_to_milisecs(struct timeval *time_all);
+int				free_philos_args(t_philo_args *philo_args, t_args *args);
 int				free_queue_args(t_queue_args *queue_args);
 char			*ft_strdup(const char *s1);
 void			*ft_memset(void *str, int c, size_t len);
