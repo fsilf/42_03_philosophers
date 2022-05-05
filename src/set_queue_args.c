@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:54:43 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:15:46 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:31:06 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	init_queue_args(t_queue_args **queue_args, \
 	(*queue_args)->head_log = head_log;
 	(*queue_args)->mutex = mutex_queue;
 	(*queue_args)->log = NULL;
+	(*queue_args)->philo = -1;
 	return (0);
 }
 

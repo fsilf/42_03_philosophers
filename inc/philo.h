@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:29:37 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 22:18:34 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,13 @@ typedef struct s_check_life
 	t_queue_args	*queue_args;
 }	t_check_life;
 
+typedef struct	s_id_store
+{
+	pthread_t	*pthread_philo_ids;
+	pthread_t	*pthread_lives_id;
+	pthread_t	*pthread_print_id;
+}	t_id_store;
+
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 int				check_lives(t_args *args, long unsigned *philo_lives, \
 								t_queue_args *queue_args);
@@ -92,17 +99,21 @@ t_log			*log_search_min(t_log **head_log);
 int				philo_step(t_philo_args *philo_args, \
 							t_queue_args *queue_args, char type);
 int				process_argv(int argc, char **argv, t_args *args);
-int				send_check_lives(t_args *args, long unsigned *philo_lives, \
-									t_queue_args *queue_args);
 int				send_log(t_queue_args *queue_args, char detach);
+int				send_check_lives(t_args *args, long unsigned *philo_lives, \
+						t_queue_args *queue_args, pthread_t *pthread_lives_id);
+int				send_printing_queue(t_queue_args *queue_args, \
+									pthread_t *pthread_print_id);
 int				send_start_philos(t_args *args, long unsigned *philo_lives, \
-									t_queue_args *queue_args);
+						t_queue_args *queue_args, pthread_t *pthread_philo_ids);
 int				set_local_queue_args(t_queue_args *queue_args, \
-				t_queue_args **local_queue, long unsigned ms_time, char type);
+						t_queue_args **local_queue, long unsigned ms_time, char type);
 int				set_philo_args(t_args *args, long unsigned *philo_lives, \
 						t_queue_args *queue_args, t_philo_args **philo_args);
 int				set_queue_args(t_queue_args **queue_args);
 void			test_print_args(t_args *args);
+void			test_print_philo_lives(t_args *args, long unsigned *philo_lives);
+void			test_print_queue_args(t_queue_args *queue_args);
 void			test_print_timeval(struct timeval *tv);
 void			*thread_lives(void *arg);
 void			*thread_log_add(void *arg);

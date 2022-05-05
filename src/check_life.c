@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 20:51:47 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 13:42:33 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 21:49:13 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,26 @@ int	check_lives(t_args *args, long unsigned *philo_lives, \
 }
 
 int	send_check_lives(t_args *args, long unsigned *philo_lives, \
-						t_queue_args *queue_args)
+						t_queue_args *queue_args, pthread_t *pthread_lives_id)
 {
-	pthread_t		pthread_lives_id;
+	//pthread_t		pthread_lives_id;
 	t_check_life	lives_args;
 
 	lives_args.args = args;
 	lives_args.philo_lives = philo_lives;
 	lives_args.queue_args = queue_args;
-	if (pthread_create(&pthread_lives_id, NULL, &thread_lives, \
+	if (pthread_create(pthread_lives_id, NULL, &thread_lives, \
 									&lives_args))
 	{
 		perror("send_check_lives: pthread_create:");
 		return (1);
 	}
-	if (pthread_join(pthread_lives_id, NULL))
+	/* move outside
+	if (pthread_join(*pthread_lives_id, NULL))
 	{
 		perror("send_check_live: thread_join");
 		return (1);
 	}
+	*/
 	return (0);
 }

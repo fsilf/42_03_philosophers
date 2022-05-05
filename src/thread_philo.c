@@ -6,11 +6,12 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 19:43:15 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:50:36 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 21:09:55 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
+#include <stdio.h> //test, remove
 #include <sys/time.h>
 #include "philo.h"
 
@@ -41,7 +42,8 @@ static int	log_fork(t_queue_args *queue_args)
 
 	gettimeofday(&log_time, NULL);
 	ms_time = convert_to_milisecs(&log_time);
-	set_local_queue_args(queue_args, &local_queue, ms_time, 'f');
+	if (set_local_queue_args(queue_args, &local_queue, ms_time, 'f'))
+		return (1);//gestionar exits
 	send_log(local_queue, 'y');
 	return (0);
 }
@@ -57,9 +59,11 @@ static int	take_forks(t_philo_args *philo_args, t_queue_args *queue_args, \
 			pthread_mutex_lock(&(philo_args->mutex_fork[fork1]));
 			pthread_mutex_lock(&(philo_args->mutex_fork[fork2]));
 			philo_args->forks[fork1] = 1;
-			log_fork(queue_args);
+			if (log_fork(queue_args))
+				return (1);
 			philo_args->forks[fork2] = 1;
-			log_fork(queue_args);
+			if (log_fork(queue_args))
+				return (1);
 			break ;
 		}
 		else
@@ -87,17 +91,18 @@ void	*thread_philo(void *arg)
 	ssize_t			fork2;
 
 	philo_args = arg;
-	pthread_mutex_lock(philo_args->mutex_philo);
 	queue_args.philo = philo_args->philo;
 	pthread_mutex_unlock(philo_args->mutex_philo);
 	queue_args.head_log = philo_args->head_log;
 	queue_args.mutex = philo_args->mutex_queue;
+	test_print_queue_args(&queue_args);
 	assign_forks(philo_args, &queue_args, &fork1, &fork2);
 	while (1)
 	{
 		if (check_death(philo_args))
 			return (NULL);
-		take_forks(philo_args, &queue_args, fork1, fork2);
+		if (take_forks(philo_args, &queue_args, fork1, fork2))
+			return (NULL);
 		philo_step(philo_args, &queue_args, 'e');
 		if (check_death(philo_args))
 			return (NULL);

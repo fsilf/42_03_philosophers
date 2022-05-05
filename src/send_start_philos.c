@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:12:02 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 21:53:23 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	init_pthread_philo_ids(t_args *args, pthread_t **pthread_philo_ids)
 	return (0);
 }
 
+/*
 static int	wait_for_philo_threads(t_args *args, pthread_t *pthread_philo_id)
 {
 	ssize_t	i;
@@ -46,7 +47,7 @@ static int	wait_for_philo_threads(t_args *args, pthread_t *pthread_philo_id)
 	}
 	return (0);
 }
-
+*/
 static int	init_philo_threads(t_args *args, pthread_t *pthread_philo_ids, \
 								t_philo_args *philo_args)
 {
@@ -60,7 +61,6 @@ static int	init_philo_threads(t_args *args, pthread_t *pthread_philo_ids, \
 	{
 		pthread_mutex_lock(&mutex_philo);
 		philo_args->philo = i;
-		pthread_mutex_unlock(&mutex_philo);
 		if (pthread_create(&(pthread_philo_ids[i]), NULL, &thread_philo, \
 								philo_args))
 		{
@@ -78,9 +78,9 @@ static int	init_philo_threads(t_args *args, pthread_t *pthread_philo_ids, \
 }
 
 int	send_start_philos(t_args *args, long unsigned *philo_lives, \
-						t_queue_args *queue_args)
+						t_queue_args *queue_args, pthread_t *pthread_philo_ids)
 {
-	pthread_t		*pthread_philo_ids;
+	//pthread_t		*pthread_philo_ids;
 	t_philo_args	*philo_args;
 
 	if (init_pthread_philo_ids(args, &pthread_philo_ids))
@@ -89,6 +89,7 @@ int	send_start_philos(t_args *args, long unsigned *philo_lives, \
 		return (1);
 	if (init_philo_threads(args, pthread_philo_ids, philo_args))
 		return (1);
+	/*
 	if (wait_for_philo_threads(args, pthread_philo_ids))
 	{
 		free(pthread_philo_ids);
@@ -97,5 +98,6 @@ int	send_start_philos(t_args *args, long unsigned *philo_lives, \
 	}
 	free(pthread_philo_ids);
 	free_philos_args(philo_args, args);
+	*/
 	return (0);
 }

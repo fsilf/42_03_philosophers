@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:19:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:02:06 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 21:15:49 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	send_log(t_queue_args *queue_args, char detach)
 {
 	pthread_t	thread_add_id;
 
-	if (pthread_create(&thread_add_id, NULL, &thread_log_add, &queue_args))
+	if (pthread_create(&thread_add_id, NULL, &thread_log_add, queue_args))
 	{
 		perror("send_log: pthread_create");
 		return (1);
@@ -31,7 +31,7 @@ int	send_log(t_queue_args *queue_args, char detach)
 			return (1);
 		}
 	}
-	else
+	else if (detach == 'n')
 	{
 		if (pthread_join(thread_add_id, NULL))
 		{
@@ -39,5 +39,7 @@ int	send_log(t_queue_args *queue_args, char detach)
 			return (1);
 		}
 	}
+	else
+		return (1);//gestionar exits
 	return (0);
 }
