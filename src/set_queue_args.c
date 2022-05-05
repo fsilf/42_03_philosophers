@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:54:43 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/04 21:01:50 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 14:15:46 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ static int	init_mutex_queue(pthread_mutex_t **mutex_queue)
 }
 
 static int	init_queue_args(t_queue_args **queue_args, \
-							t_log **head_log, pthread_mutex_t *mutext_queue)
+							t_log **head_log, pthread_mutex_t *mutex_queue)
 {
 	*queue_args = NULL;
 	*queue_args = (t_queue_args *)malloc(sizeof (t_queue_args));
 	if (*queue_args == NULL)
 	{
-		perror("set_queue_args: queue_args malloc:")
+		perror("set_queue_args: queue_args malloc:");
 		return (1);
 	}
 	(*queue_args)->head_log = head_log;
@@ -61,7 +61,7 @@ static int	init_queue_args(t_queue_args **queue_args, \
 	return (0);
 }
 
-int	t_queue_args *set_queue_args(t_queue_args **queue_args)
+int	set_queue_args(t_queue_args **queue_args)
 {
 	t_log			**head_log;
 	pthread_mutex_t	*mutex_queue;

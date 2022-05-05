@@ -1,43 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   send_log.c                                         :+:      :+:    :+:   */
+/*   set_local_queue_args.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/04 14:19:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:02:06 by fsilva-f         ###   ########.fr       */
+/*   Created: 2022/05/05 12:37:26 by fsilva-f          #+#    #+#             */
+/*   Updated: 2022/05/05 14:54:35 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <pthread.h>
+#include <stdlib.h>
 #include "philo.h"
 
-int	send_log(t_queue_args *queue_args, char detach)
+int	set_local_queue_args(t_queue_args *queue_args, \
+			t_queue_args **local_queue, long unsigned ms_time, char type)
 {
-	pthread_t	thread_add_id;
-
-	if (pthread_create(&thread_add_id, NULL, &thread_log_add, &queue_args))
+	*local_queue = (t_queue_args *)malloc(sizeof (t_queue_args));
 	{
-		perror("send_log: pthread_create");
+		perror("set_local_queue_args");
 		return (1);
+		//gestionar exits
 	}
-	if (detach == 'y')
-	{
-		if (pthread_detach(thread_add_id))
-		{
-			perror("send log: pthread_detach");
-			return (1);
-		}
-	}
-	else
-	{
-		if (pthread_join(thread_add_id, NULL))
-		{
-			perror("send_log: pthread_join");
-			return (1);
-		}
-	}
+	(*local_queue)->head_log = queue_args->head_log;
+	(*local_queue)->mutex = queue_args->mutex;
+	(*local_queue)->philo = queue_args->philo;
+	(*local_queue)->log = log_new(ms_time, type, queue_args->philo);
 	return (0);
 }

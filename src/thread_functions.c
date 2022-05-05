@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 11:24:32 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/04 21:02:17 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/05 14:20:24 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,25 @@ void	*thread_log_add(void *arg)
 
 	queue_args = arg;
 	log_addback(queue_args->head_log, queue_args->log, queue_args->mutex);
+	free(queue_args);
 	return (NULL);
 }
 
 void	*thread_usleep(void *arg)
 {
-	ssize_t	time_to;
+	ssize_t	*time_to;
 
-	time_to = (ssize_t)arg;
-	usleep(time_to);
+	time_to = (ssize_t *)arg;
+	usleep(*time_to);
 	return (NULL);
 }
-
 
 void	*thread_lives(void *arg)
 {
 	t_check_life	*lives_args;
 
 	lives_args = arg;
-	check_lives(lives_args->args, lives_args->philo_lives);
+	check_lives(lives_args->args, lives_args->philo_lives, \
+					lives_args->queue_args);
 	return (NULL);
 }
