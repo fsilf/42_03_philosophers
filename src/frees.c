@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 12:06:18 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 14:46:06 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 16:46:29 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 		i++;
 	}
 	free(mutex_fork);
+	mutex_fork = NULL;
 	return (0);
 }
 /*

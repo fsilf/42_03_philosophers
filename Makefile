@@ -9,7 +9,9 @@ SRC =	main.c\
 		frees.c\
 		libft_functions.c\
 		process_argv.c\
+		send_start_philos.c\
 		set_forks.c\
+		set_threads.c\
 		test_prints.c
 		#check_death.c\
 		check_life.c\
@@ -20,11 +22,9 @@ SRC =	main.c\
 		philo_step.c\
 		send_log.c\
 		send_printing_queue.c\
-		send_start_philos.c\
 		set_local_queue_args.c\
 		set_philo_args.c\
 		set_queue_args.c\
-		set_threads.c\
 		thread_functions.c\
 		thread_philo.c\
 		timer.c\
