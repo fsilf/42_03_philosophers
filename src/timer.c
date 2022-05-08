@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 13:17:24 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 18:36:41 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ long unsigned	ft_timeadd(long unsigned ms_start, long unsigned ms_end)
 	return (res);
 }
 */
-
+/*
 int	ft_timesub(struct timeval start, struct timeval end, struct timeval *res)
 {
 	if (end.tv_sec >= start.tv_sec)
@@ -64,16 +64,16 @@ int	ft_timesub(struct timeval start, struct timeval end, struct timeval *res)
 	}
 	return (0);
 }
-
-int	add_ms(struct timeval *tv, long unsigned to_add)
+*/
+int	add_ms(struct timeval tv, long unsigned to_add, struct timeval *res)
 {
-	(*tv)->tv_usec = \
-		((long unsigned)(*tv)->tv_usec + (to_add * 1000)) % 1000000;
-	(*tv)->tv_sec = (*tv)->tv_sec + \
-		((long unsigned)(*tv)->tv_usec + (to_add * 1000)) / 1000000;
+	res->tv_usec = \
+		((long unsigned)tv.tv_usec + (to_add * 1000)) % 1000000;
+	res->tv_sec = tv.tv_sec + \
+		((long unsigned)tv.tv_usec + (to_add * 1000)) / 1000000;
 	return (0);
 }
-
+/*
 long unsigned	convert_to_milisecs(struct timeval *time_all)
 {
 	long unsigned	time_ms;
@@ -83,3 +83,4 @@ long unsigned	convert_to_milisecs(struct timeval *time_all)
 	time_ms = time_ms + (long unsigned)(time_all->tv_usec / 1000);
 	return (time_ms);
 }
+*/

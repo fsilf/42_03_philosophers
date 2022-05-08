@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 18:03:08 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 18:34:58 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_philo_args
 {
 	t_args			*args;
 	ssize_t			philo;
-	struct timeval	philo_life;
+	struct timeval	life;
 	struct timeval	tv_begin;
 	ssize_t			fork1;
 	ssize_t			fork2;
@@ -80,6 +80,8 @@ typedef struct s_check_life
 	t_queue_args	*queue_args;
 }	t_check_life;
 */
+int				add_ms(struct timeval tv, long unsigned to_add, \
+						struct timeval *res);
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 								ssize_t num_philo);
