@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 11:54:43 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:15:46 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/07 17:09:33 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static int	init_mutex_queue(pthread_mutex_t **mutex_queue)
 	return (0);
 }
 
-static int	init_queue_args(t_queue_args **queue_args, \
-							t_log **head_log, pthread_mutex_t *mutex_queue)
+static int	init_queue_args(t_queue_args **queue_args, t_log **head_log, \
+							pthread_mutex_t *mutex_queue, t_args *args)
 {
 	*queue_args = NULL;
 	*queue_args = (t_queue_args *)malloc(sizeof (t_queue_args));
@@ -58,10 +58,12 @@ static int	init_queue_args(t_queue_args **queue_args, \
 	(*queue_args)->head_log = head_log;
 	(*queue_args)->mutex = mutex_queue;
 	(*queue_args)->log = NULL;
+	(*queue_args)->philo = -1;
+	(*queue_args)->ms_init = args->ms_init;
 	return (0);
 }
 
-int	set_queue_args(t_queue_args **queue_args)
+int	set_queue_args(t_queue_args **queue_args, t_args *args)
 {
 	t_log			**head_log;
 	pthread_mutex_t	*mutex_queue;
@@ -71,7 +73,7 @@ int	set_queue_args(t_queue_args **queue_args)
 		return (1);
 	if (init_mutex_queue(&mutex_queue))
 		return (1);
-	if (init_queue_args(queue_args, head_log, mutex_queue))
+	if (init_queue_args(queue_args, head_log, mutex_queue, args))
 		return (1);
 	return (0);
 }

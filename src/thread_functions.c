@@ -6,13 +6,14 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/03 11:24:32 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:20:24 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/07 17:49:33 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdio.h>
 #include "philo.h"
 
 void	*thread_print_queue(void *arg)
@@ -45,7 +46,9 @@ void	*thread_usleep(void *arg)
 	ssize_t	*time_to;
 
 	time_to = (ssize_t *)arg;
-	usleep(*time_to);
+	if (*time_to == 1)
+		return (NULL);
+	usleep(*time_to * 1000);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/03 18:27:59 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 13:17:24 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <limits.h>
 #include "philo.h"
 
+/*
 long unsigned	ft_timesub(long unsigned ms_start, long unsigned ms_end)
 {
 	long unsigned	res;
@@ -39,6 +40,38 @@ long unsigned	ft_timeadd(long unsigned ms_start, long unsigned ms_end)
 		return (0);
 	}
 	return (res);
+}
+*/
+
+int	ft_timesub(struct timeval start, struct timeval end, struct timeval *res)
+{
+	if (end.tv_sec >= start.tv_sec)
+		*res->tv_sec = end.tv_sec - start.tv_sec;
+	else
+	{
+		*res->tv_sec = 0;
+		*res->tv_usec = 0;
+	}
+	if (end.tv_usec >= start.tv_usec)
+		*res->tv_usec = end.tv_usec - start.tv_usec;
+	else
+	{
+		*res->tv_usec = start.tv_usec - end.tv_usec;
+		if (*res->tv_sec == 0)
+			*res->tv_usec = 0;
+		else
+			*res->tv_sec = *res->tv_sec - 1;
+	}
+	return (0);
+}
+
+int	add_ms(struct timeval *tv, long unsigned to_add)
+{
+	(*tv)->tv_usec = \
+		((long unsigned)(*tv)->tv_usec + (to_add * 1000)) % 1000000;
+	(*tv)->tv_sec = (*tv)->tv_sec + \
+		((long unsigned)(*tv)->tv_usec + (to_add * 1000)) / 1000000;
+	return (0);
 }
 
 long unsigned	convert_to_milisecs(struct timeval *time_all)

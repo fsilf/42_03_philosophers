@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/22 10:57:05 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/03/14 12:22:26 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:39:47 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ ssize_t	atoi_philo(const char *str, ssize_t *ptr_num)
 {
 	*ptr_num = ft_strtol(str, 10);
 	if (*ptr_num == -1)
+		return (1);
+	if (*ptr_num == 0)
 		return (1);
 	return (0);
 }
