@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 11:36:11 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:32:36 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/07 17:27:20 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ int	set_philo_args(t_args *args, long unsigned *philo_lives, \
 		return (1);
 	//gestionar exits
 	(*philo_args)->mutex_fork = mutex_fork;
-	(*philo_args)->mutex_philo = NULL;
+	pthread_mutex_init(&((*philo_args)->mutex_philo), NULL);
 	(*philo_args)->mutex_queue = queue_args->mutex;
 	(*philo_args)->philo = -1;
 	if (init_forks(&forks, args->num_philo))
 		return (1);
 	(*philo_args)->forks = forks;
+	(*philo_args)->ms_init = args->ms_init;
 	return (0);
 }

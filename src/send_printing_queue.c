@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 21:18:31 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 22:18:28 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/07 11:53:28 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 #include <stdlib.h>
 #include "philo.h"
 
-int	send_printing_queue(t_queue_args *queue_args, pthread_t *pthread_print_id)
+int	send_printing_queue(t_queue_args *queue_args, t_id_store *pthread_ids)
 {
 	//pthread_t	pthread_print_id;
 	//void			*resval;
 
-	if (pthread_create(pthread_print_id, NULL, &thread_print_queue, queue_args))
+	if (pthread_create(&(pthread_ids->print_id), NULL, &thread_print_queue, \
+						queue_args))
 	{
 		perror("send_printing_queue: pthread_create");
 		return (1);

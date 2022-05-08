@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/04 15:01:33 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/07 16:24:25 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,20 @@ static void	error_args(char *str, int *err)
 	free(str_err);
 }
 
+static void	check_args(int argc, t_args *args, int *err)
+{
+	if (args == NULL)
+		error_args("argv is NULL\n", err);
+	else if (argc < 5 || argc > 6)
+		error_args("wrong number of arguments\n", err);
+}
+
 int	process_argv(int argc, char **argv, t_args *args)
 {
 	int	err;
 
 	err = 0;
-	if (args == NULL)
-		error_args("argv is NULL\n", &err);
-	else if (argc < 5 || argc > 6)
-		error_args("wrong number of arguments\n", &err);
+	check_args(argc, args, &err);
 	if (err == 1)
 		return (err);
 	if (atoi_philo(argv[1], &(args->num_philo)))
@@ -50,6 +55,7 @@ int	process_argv(int argc, char **argv, t_args *args)
 			error_args(\
 			"wrong format number_of_times_a_philosopher_must_eat\n", &err);
 	}
-	args->time_think = 5;//00! check different values
+	args->time_think = 1;//00! check different values
+	args->end = 0;
 	return (err);
 }

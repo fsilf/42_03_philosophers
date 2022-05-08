@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 11:25:06 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 14:57:38 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/07 18:07:35 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <sys/time.h>
 #include "philo.h"
 
-static int	send_usleep(ssize_t time_to, pthread_t *pthread_sleep_id)
+static int	send_usleep(ssize_t *time_to, pthread_t *pthread_sleep_id)
 {
-	if (pthread_create(pthread_sleep_id, NULL, &thread_usleep, &time_to))
+	if (pthread_create(pthread_sleep_id, NULL, &thread_usleep, (void *)time_to))
 	{
 		perror("send_usleep: pthread_create");
 		return (1);
@@ -34,8 +34,6 @@ int	philo_step(t_philo_args *philo_args, \
 	pthread_t		pthread_sleep_id;
 	t_queue_args	*local_queue;
 
-	if (check_death(philo_args))
-		return (0);
 	gettimeofday(&log_time, NULL);
 	time_to = 0;
 	if (type == 'e')
@@ -44,11 +42,14 @@ int	philo_step(t_philo_args *philo_args, \
 		time_to = philo_args->args->time_unhungry;
 	else if (type == 't')
 		time_to = philo_args->args->time_think;
-	if (send_usleep(time_to, &pthread_sleep_id)) //!00! write_function
+	if (send_usleep(&time_to, &pthread_sleep_id))
 		return (1); //gestionar exits
 	ms_time = convert_to_milisecs(&log_time);
 	if (type == 'e')
-		philo_args->philo_lives[queue_args->philo] = ms_time;
+	{
+		philo_args->philo_lives[queue_args->philo] = ms_time + \
+											philo_args->args->time_life;
+	}
 	set_local_queue_args(queue_args, &local_queue, ms_time, type);
 	send_log(local_queue, 'y');
 	pthread_join(pthread_sleep_id, NULL);

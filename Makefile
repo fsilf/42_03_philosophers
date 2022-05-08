@@ -24,6 +24,7 @@ SRC = philo_main.c\
 		set_local_queue_args.c\
 		set_philo_args.c\
 		set_queue_args.c\
+		set_threads.c\
 		thread_functions.c\
 		thread_philo.c\
 		timer.c\
