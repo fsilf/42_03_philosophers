@@ -1,17 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   libft_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
+/*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/22 19:35:11 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/03/14 12:36:29 by fsilva-f         ###   ########.fr       */
+/*   Created: 2022/05/08 12:04:10 by fsilva-f          #+#    #+#             */
+/*   Updated: 2022/05/08 12:06:54 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "philo.h"
+
+void	*ft_memset(void *str, int c, size_t len)
+{
+	unsigned char	c_c;
+	size_t			i;
+	char			*ptr;
+
+	c_c = (unsigned char)c;
+	i = 0;
+	ptr = (char *)str;
+	while (i < len)
+	{
+		ptr[i] = c_c;
+		i++;
+	}
+	return ((void *) ptr);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*ptr;
+	size_t	len;
+	size_t	i;
+
+	len = ft_strlen(s1);
+	if (s1 == NULL)
+		return (NULL);
+	ptr = (char *)malloc(len + 1);
+	if (ptr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
@@ -40,4 +80,14 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	ptr[i] = '\0';
 	return (ptr);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }

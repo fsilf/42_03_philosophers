@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 12:12:04 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/05 19:33:24 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:21:33 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,36 @@
 #include <sys/time.h>
 #include "philo.h"
 
-void	test_print_args(t_args *args)
-{
-	printf("num_philo:%zd\n", args->num_philo);
-	printf("time_life:%zd\n", args->time_life);
-	printf("time_eating:%zd\n", args->time_eating);
-	printf("time_unhungry:%zd\n", args->time_unhungry);
-	printf("time_think:%zd\n", args->time_think);
-	printf("num_loops:%zd\n", args->num_loops);
-	printf("init_time ms_init:%ld\n", args->ms_init);
-}
-
-void	test_print_timeval(struct timeval *tv)
+void	test_print_timeval(struct timeval tv)
 {
 	printf("secs:%d, usecs:%d\n", \
-			(unsigned int)tv->tv_sec, (unsigned int)tv->tv_usec);
+			(unsigned int)tv.tv_sec, (unsigned int)tv.tv_usec);
 }
 
+void	test_print_args(t_args args)
+{
+	printf("num_philo:%zd\n", args.num_philo);
+	printf("time_life:%zd\n", args.time_life);
+	printf("time_eating:%zd\n", args.time_eating);
+	printf("time_unhungry:%zd\n", args.time_unhungry);
+	printf("num_loops:%zd\n", args.num_loops);
+	if (args.forks[0] == 0)
+		printf("forks set\n");
+	else
+		printf("forks NOT set\n");
+	if (args.mutex_fork != NULL  && &(args.mutex_fork[0]) != 0)
+		printf("mutex_fork set\n");
+	else
+		printf("mutex_forks NOT set\n");
+	if (&(args.mutex_philo) != 0)
+		printf("mutex_philo set\n");
+	else
+		printf("mutex_philo NOT set\n");
+	printf("end:%zd\n", args.end);
+	test_print_timeval(args.tv_init);
+}
+
+/*
 void	test_print_philo_lives(t_args *args, long unsigned *philo_lives)
 {
 	ssize_t	i;
@@ -57,3 +70,4 @@ void	test_print_queue_args(t_queue_args *queue_args)
 	pthread_mutex_unlock(queue_args->mutex);
 	printf("queue_mutex OFF\n");
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/07 17:24:02 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 14:32:41 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,35 @@ typedef struct args
 	ssize_t			time_life;
 	ssize_t			time_eating;
 	ssize_t			time_unhungry;
-	ssize_t			time_think;
 	ssize_t			num_loops;
-	long unsigned	ms_init;
+	ssize_t			*forks;
+	pthread_mutex_t	*mutex_fork;
+	pthread_mutex_t	mutex_philo;
 	ssize_t			end;
+	struct timeval	tv_init;
 }				t_args;
 
+/*
+typedef struct	s_id_store
+{
+	pthread_t	*philo_ids;
+	//pthread_t	print_id;
+}	t_id_store;
+*/
+/*
+typedef struct s_philo_args
+{
+	t_args			*args;
+	ssize_t			philo;
+	struct timeval	philo_life;
+	//t_log			**head_log;
+	//pthread_mutex_t	*mutex_queue;
+	struct timeval	tv_begin;
+	pthread_t		lives_id;
+}	t_philo_args;
+*/
+
+/*
 typedef struct s_log
 {
 	char			type;
@@ -46,35 +69,27 @@ typedef struct s_queue_agrs
 	ssize_t			philo;
 	long unsigned	ms_init;
 }	t_queue_args;
+*/
 
-typedef struct s_philo_args
-{
-	t_args			*args;
-	long unsigned	*philo_lives;
-	ssize_t			*forks;
-	t_log			**head_log;
-	pthread_mutex_t	*mutex_fork;
-	pthread_mutex_t	mutex_philo;
-	pthread_mutex_t	*mutex_queue;
-	long unsigned	ms_init;
-	ssize_t			philo;
-}	t_philo_args;
-
+/*
 typedef struct s_check_life
 {
 	t_args			**args;
 	long unsigned	*philo_lives;
 	t_queue_args	*queue_args;
 }	t_check_life;
-
-typedef struct	s_id_store
-{
-	pthread_t	*philo_ids;
-	pthread_t	lives_id;
-	pthread_t	print_id;
-}	t_id_store;
-
+*/
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
+int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
+								ssize_t num_philo);
+void			*ft_memset(void *str, int c, size_t len);
+char			*ft_strjoin(const char *s1, const char *s2);
+size_t			ft_strlen(const char *s);
+int				process_argv(int argc, char **argv, t_args *args);
+int				set_forks(t_args *args);
+void			test_print_args(t_args args);
+void			test_print_timeval(struct timeval tv);
+/*
 int				check_lives(t_args **args, long unsigned *philo_lives, \
 					t_queue_args *queue_args);
 int				check_death(t_philo_args *philo_args);
@@ -84,9 +99,6 @@ int				free_main(long unsigned *philo_lives, \
 int				free_philo_args(t_philo_args *philo_args);
 int				free_queue_args(t_queue_args *queue_args);
 char			*ft_strdup(const char *s1);
-void			*ft_memset(void *str, int c, size_t len);
-char			*ft_strjoin(const char *s1, const char *s2);
-size_t			ft_strlen(const char *s);
 long unsigned	ft_timeadd(long unsigned ms_start, long unsigned ms_end);
 long unsigned	ft_timesub(long unsigned ms_start, long unsigned ms_end);
 void			log_addback(t_log **head_log, t_log *new_log, \
@@ -99,7 +111,6 @@ int				log_remove(t_log **head_log, t_log *to_remove);
 t_log			*log_search_min(t_log **head_log);
 int				philo_step(t_philo_args *philo_args, \
 							t_queue_args *queue_args, char type);
-int				process_argv(int argc, char **argv, t_args *args);
 int				send_log(t_queue_args *queue_args, char detach);
 int				send_check_lives(t_philo_args *philo_args, \
 						t_queue_args *queue_args, t_id_store *pthread_ids);
@@ -115,14 +126,12 @@ int				set_philo_args(t_args *args, long unsigned *philo_lives, \
 int				set_queue_args(t_queue_args **queue_args, t_args *args);
 int				set_threads(t_queue_args *queue_args, \
 									t_philo_args *philo_args);
-void			test_print_args(t_args *args);
 void			test_print_philo_lives(t_args *args, long unsigned *philo_lives);
 void			test_print_queue_args(t_queue_args *queue_args);
-void			test_print_timeval(struct timeval *tv);
 void			*thread_lives(void *arg);
 void			*thread_log_add(void *arg);
 void			*thread_philo(void *arg);
 void			*thread_print_queue(void *arg);
 void			*thread_usleep(void *arg);
-
+*/
 #endif
