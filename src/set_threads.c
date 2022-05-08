@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 15:43:09 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 18:11:41 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 20:33:56 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static int	init_pthread_philo_ids(t_id_store *pthread_ids, ssize_t num_philo)
 {
 	pthread_ids->philo_ids = NULL;
-	pthread_ids->philo_ids = (pthread_t *)malloc(
+	pthread_ids->philo_ids = (pthread_t *)malloc(\
 								sizeof (pthread_t) * num_philo);
 	if (pthread_ids->philo_ids == NULL)
 	{
