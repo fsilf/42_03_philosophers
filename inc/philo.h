@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 18:03:08 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 20:09:28 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,12 @@ typedef struct s_philo_args
 {
 	t_args			*args;
 	ssize_t			philo;
-	struct timeval	philo_life;
+	struct timeval	life;
 	struct timeval	tv_begin;
+	struct timeval	tv_end;
 	ssize_t			fork1;
 	ssize_t			fork2;
-	//pthread_t		lives_id;
+	pthread_t		lives_id;
 	//t_log			**head_log;
 	//pthread_mutex_t	*mutex_queue;
 }	t_philo_args;
@@ -80,13 +81,17 @@ typedef struct s_check_life
 	t_queue_args	*queue_args;
 }	t_check_life;
 */
+int				add_ms(struct timeval tv, long unsigned to_add, \
+						struct timeval *res);
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 								ssize_t num_philo);
+int				compare_timevals(struct timeval end, struct timeval curr);
 void			*ft_memset(void *str, int c, size_t len);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
 int				process_argv(int argc, char **argv, t_args *args);
+int				send_check_lives(t_philo_args *philo);
 int				send_start_philos(t_args *args, t_id_store *pthread_ids);
 int				set_forks(t_args *args);
 int				set_threads(t_args *args);

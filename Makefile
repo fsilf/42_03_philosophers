@@ -9,9 +9,11 @@ SRC =	main.c\
 		frees.c\
 		libft_functions.c\
 		process_argv.c\
+		send_check_lives.c\
 		send_start_philos.c\
 		set_forks.c\
 		set_threads.c\
+		timer.c\
 		test_prints.c
 		#check_death.c\
 		check_life.c\
@@ -27,7 +29,6 @@ SRC =	main.c\
 		set_queue_args.c\
 		thread_functions.c\
 		thread_philo.c\
-		timer.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 INC = $(addprefix -I, $(INC_DIR))

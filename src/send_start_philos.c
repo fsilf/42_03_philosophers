@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 18:06:27 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 20:23:47 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,14 @@ int	set_philo_args(t_args *args, t_philo_args *philo)
 	return (0);
 }
 
-static void	*thread_philo(void *arg)
+int	start_simulation_sync(t_args *args, t_philo_args *philo)
 {
-	t_args			*args;
-	t_philo_args	philo;
-
-	args = arg;
-	set_philo_args(args, &philo);
-	assign_forks(&philo);
-	pthread_mutex_unlock(&(args->mutex_philo));
-	if (philo.philo == args->num_philo - 1)
+	if (philo->philo == args->num_philo - 1)
 	{
 		if (pthread_mutex_destroy(&(args->mutex_philo)))
 		{
 			perror("thread_philo: mutex_destroy mutex_philo");
-			return (NULL);
+			return (1);
 		}
 		pthread_mutex_unlock(&args->mutex_start);
 		gettimeofday(&(args->tv_init), NULL);
@@ -66,9 +59,28 @@ static void	*thread_philo(void *arg)
 		pthread_mutex_lock(&args->mutex_start);
 		pthread_mutex_unlock(&args->mutex_start);
 	}
-	/*
+	add_ms(args->tv_init, args->time_life, &(philo->life));
+	return (0);
+}
+
+static void	*thread_philo(void *arg)
+{
+	t_args			*args;
+	t_philo_args	philo;
+
+	args = arg;
+	set_philo_args(args, &philo);
+	assign_forks(&philo);
+	pthread_mutex_unlock(&(args->mutex_philo));
+	if (start_simulation_sync(args, &philo))
+		return (NULL);
+	if (send_check_lives(&philo))
+		return (NULL);
 	while (1)
 	{
+		if (philo.args->end == 1)
+			break ;
+		/*
 		if (take_forks(philo_args, &queue_args, fork1, fork2))
 			return (NULL);
 		if (philo_step(philo_args, &queue_args, 'e'))
@@ -78,8 +90,14 @@ static void	*thread_philo(void *arg)
 			return (NULL);
 		if (philo_step(philo_args, &queue_args, 't'))
 			return (NULL);
+		*/
+		usleep(1000);
 	}
-	*/
+	if (pthread_join(philo.lives_id, NULL))
+	{
+		perror("send_check_lives: pthread_join:");
+		return (NULL);
+	}
 	return (NULL);
 }
 
