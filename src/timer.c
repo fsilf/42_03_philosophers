@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 20:32:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 21:51:13 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	custom_sleep(struct timeval end)
 
 	gettimeofday(&curr_time, NULL);
 	if (compare_timevals(end, curr_time))
-		usleep(1000);
+		usleep(100);
 	return (0);
 }
 

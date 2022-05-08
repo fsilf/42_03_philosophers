@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 18:04:25 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/08 23:55:27 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,26 @@ static void	get_input_args(int argc, t_args *args, char **argv, int *err)
 	}
 }
 
+static int	init_mutexes(t_args *args)
+{
+	if (pthread_mutex_init(&(args->mutex_philo), NULL))
+	{
+		perror("process_argv: mutex init mutex_philo");
+		return (1);
+	}
+	if (pthread_mutex_init(&(args->mutex_start), NULL))
+	{
+		perror("process_argv: mutex init mutex_start");
+		return (1);
+	}
+	if (pthread_mutex_init(&(args->mutex_death), NULL))
+	{
+		perror("process_argv: mutex init mutex_death");
+		return (1);
+	}
+	return (0);
+}
+
 int	process_argv(int argc, char **argv, t_args *args)
 {
 	int	err;
@@ -62,16 +82,9 @@ int	process_argv(int argc, char **argv, t_args *args)
 		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
 		return (1);
 	}
-	if (pthread_mutex_init(&(args->mutex_philo), NULL))
+	if (init_mutexes(args))
 	{
 		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
-		perror("process_argv: mutex init mutex_philo");
-		return (1);
-	}
-	if (pthread_mutex_init(&(args->mutex_start), NULL))
-	{
-		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
-		perror("process_argv: mutex init mutex_start");
 		return (1);
 	}
 	return (0);

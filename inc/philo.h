@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 20:09:28 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 00:07:14 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct args
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	mutex_philo;
 	pthread_mutex_t	mutex_start;
+	pthread_mutex_t	mutex_death;
 	ssize_t			end;
 	ssize_t			philo;
 	struct timeval	tv_init;
@@ -84,12 +85,14 @@ typedef struct s_check_life
 int				add_ms(struct timeval tv, long unsigned to_add, \
 						struct timeval *res);
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
+int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
 int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 								ssize_t num_philo);
 int				compare_timevals(struct timeval end, struct timeval curr);
 void			*ft_memset(void *str, int c, size_t len);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
+int				philo_cycle(t_philo_args *philo);
 int				process_argv(int argc, char **argv, t_args *args);
 int				send_check_lives(t_philo_args *philo);
 int				send_start_philos(t_args *args, t_id_store *pthread_ids);

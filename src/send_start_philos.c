@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 20:23:47 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 00:06:23 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,10 @@ static void	*thread_philo(void *arg)
 		return (NULL);
 	if (send_check_lives(&philo))
 		return (NULL);
-	while (1)
-	{
-		if (philo.args->end == 1)
-			break ;
-		/*
-		if (take_forks(philo_args, &queue_args, fork1, fork2))
-			return (NULL);
-		if (philo_step(philo_args, &queue_args, 'e'))
-			return (NULL);
-		release_forks(philo_args, fork1, fork2);
-		if (philo_step(philo_args, &queue_args, 's'))
-			return (NULL);
-		if (philo_step(philo_args, &queue_args, 't'))
-			return (NULL);
-		*/
-		usleep(1000);
-	}
+	philo_cycle(&philo);
 	if (pthread_join(philo.lives_id, NULL))
 	{
-		perror("send_check_lives: pthread_join:");
+		perror("thread_philo: pthread_join lives_id");
 		return (NULL);
 	}
 	return (NULL);
