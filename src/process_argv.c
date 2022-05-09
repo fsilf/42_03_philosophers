@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 13:59:50 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 20:18:23 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ static int	init_mutexes(t_args *args)
 	if (pthread_mutex_init(&(args->mutex_death), NULL))
 	{
 		perror("process_argv: mutex init mutex_death");
+		return (1);
+	}
+	if (pthread_mutex_init(&(args->mutex_print), NULL))
+	{
+		perror("process_argv: mutex init mutex_print");
 		return (1);
 	}
 	return (0);
