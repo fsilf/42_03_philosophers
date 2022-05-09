@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 13:58:04 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:38:42 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 
 static int	assign_forks(t_philo_args *philo)
 {
+	if (philo->args->num_philo == 1)
+	{
+		gettimeofday(&(philo->args->tv_init), NULL);
+		printf("tv_sec: %ld, tv_usec: %ld, philo 0 has taken a fork\n", \
+				philo->args->tv_init.tv_sec, philo->args->tv_init.tv_usec);
+		add_ms(philo->args->tv_init, philo->args->time_life, &(philo->life));
+		printf("tv_sec: %ld, tv_usec: %ld, philo 0 died\n", \
+				philo->life.tv_sec, philo->life.tv_usec);
+		return (1);
+	}
 	if (philo->philo % 2 == 0)
 	{
 		philo->fork1 = philo->philo;
@@ -28,10 +38,6 @@ static int	assign_forks(t_philo_args *philo)
 		philo->fork1 = (philo->philo + 1) % philo->args->num_philo;
 		philo->fork2 = philo->philo;
 	}
-	/*
-	printf("philo:%zd has fork1:%zd, fork2:%zd\n", \
-			philo->philo, philo->fork1, philo->fork2);
-	*/
 	return (0);
 }
 
@@ -39,7 +45,7 @@ int	set_philo_args(t_args *args, t_philo_args *philo)
 {
 	ft_memset(philo, 0, sizeof (t_philo_args));
 	philo->philo = args->philo;
-	args->seated = args->seated + 1; 
+	args->seated = args->seated + 1;
 	philo->args = args;
 	return (0);
 }
@@ -50,13 +56,6 @@ int	start_simulation_sync(t_args *args, t_philo_args *philo)
 	{
 		gettimeofday(&(args->tv_init), NULL);
 		test_print_timeval(args->tv_init);
-		/*
-		if (pthread_mutex_destroy(&(args->mutex_philo)))
-		{
-			perror("thread_philo: mutex_destroy mutex_philo");
-			return (1);
-		}
-		*/
 		args->start = 1;
 		add_ms(args->tv_init, args->time_life, &(philo->life));
 	}
@@ -82,21 +81,13 @@ static void	*thread_philo(void *arg)
 
 	args = arg;
 	set_philo_args(args, &philo);
-	assign_forks(&philo);
+	if (assign_forks(&philo))
+		return (NULL);
 	pthread_mutex_unlock(&(args->mutex_philo));
 	if (start_simulation_sync(args, &philo))
 		return (NULL);
 	if (send_check_lives(&philo))
 		return (NULL);
-	if (philo.args->num_philo == 1)
-	{
-		while (1)
-		{
-			if (check_death(args->end, &(args->mutex_death)))
-				return (NULL);
-			usleep(1000);
-		}
-	}
 	if (philo.philo % 2 == 0)
 	{
 		add_ms(args->tv_init, args->time_eat, &(philo.tv_end));

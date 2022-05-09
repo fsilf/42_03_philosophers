@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 13:43:28 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:08:02 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	philo_cycle(t_philo_args *philo)
 		if (take_forks(philo))
 		{
 			write(2, "philo_cycle: take_forks error", 29);
-			return (1) ;
+			return (1);
 		}
 		if (check_death(philo->args->end, &(philo->args->mutex_death)))
 		{
