@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 20:33:13 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:22:46 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,41 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include "philo.h"
+
+int	check_death(ssize_t end, pthread_mutex_t *mutex_death)
+{
+	pthread_mutex_lock(mutex_death);
+	if (end == 1)
+	{
+		pthread_mutex_unlock(mutex_death);
+		return (1);
+	}
+	pthread_mutex_unlock(mutex_death);
+	return (0);
+}
+
+static int	check_loop(t_philo_args *philo, struct timeval *curr_time)
+{
+	if (pthread_mutex_lock(&(philo->args->mutex_death)))
+		perror("thread_lives: mutex_lock mutex_death");
+	if (philo->args->end == 1)
+	{
+		pthread_mutex_unlock(&(philo->args->mutex_death));
+		return (1);
+	}
+	gettimeofday(curr_time, NULL);
+	if (compare_timevals(philo->life, *curr_time))
+	{
+		philo->args->end = 1;
+		printf("tv_sec: %ld, tv_usec: %ld, philo %zd died\n", \
+				curr_time->tv_sec, curr_time->tv_usec, philo->philo);
+		pthread_mutex_unlock(&(philo->args->mutex_death));
+		return (1);
+	}
+	pthread_mutex_unlock(&(philo->args->mutex_death));
+	usleep(100);
+	return (0);
+}
 
 static void	*thread_lives(void *arg)
 {
@@ -26,16 +61,8 @@ static void	*thread_lives(void *arg)
 			philo->philo, philo->life.tv_sec, philo->life.tv_usec);
 	while (1)
 	{
-		if (philo->args->end == 1)
+		if (check_loop(philo, &curr_time))
 			return (NULL);
-		gettimeofday(&curr_time, NULL);
-		if (compare_timevals(philo->life, curr_time))
-		{
-			philo->args->end = 1;
-			printf("philo %zd died\n", philo->philo);
-			return (NULL);
-		}
-		usleep(1000);
 	}
 }
 

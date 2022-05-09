@@ -8,6 +8,7 @@ SRC =	main.c\
 		atoi_philo.c\
 		frees.c\
 		libft_functions.c\
+		philo_cycle.c\
 		process_argv.c\
 		send_check_lives.c\
 		send_start_philos.c\
@@ -34,8 +35,8 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 INC = $(addprefix -I, $(INC_DIR))
 
 CC = gcc
-CFLAG = -Werror -Wall -Wextra -g3 -fsanitize=address
-#CFLAG = -Werror -Wall -Wextra -g3
+#CFLAG = -Werror -Wall -Wextra -g3 -fsanitize=address
+CFLAG = -Werror -Wall -Wextra -g3
 RM = rm -rf
 
 .PHONY: fclean all clean re

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 20:32:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:58:51 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ int	ft_timesub(struct timeval start, struct timeval end, struct timeval *res)
 	}
 	return (0);
 }
+int	copy_timevals(struct timeval ori, struct timeval *dest)
+{
+	dest->tv_usec = ori.tv_usec;
+	dest->tv_sec = ori.tv_sec;
+	return (0);
+}
 */
+
 int	add_ms(struct timeval tv, long unsigned to_add, struct timeval *res)
 {
 	res->tv_usec = \
@@ -90,10 +97,14 @@ int	custom_sleep(struct timeval end)
 {
 	struct timeval	curr_time;
 
-	gettimeofday(&curr_time, NULL);
-	if (compare_timevals(end, curr_time))
-		usleep(1000);
-	return (0);
+	ft_memset(&curr_time, 0, sizeof (struct timeval));
+	while (1)
+	{
+		gettimeofday(&curr_time, NULL);
+		if (compare_timevals(end, curr_time))
+			return (0);
+		usleep(100);
+	}
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 18:04:25 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:59:50 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void	get_input_args(int argc, t_args *args, char **argv, int *err)
 		error_args("wrong format num_philosophers\n", err);
 	if (atoi_philo(argv[2], &(args->time_life)))
 		error_args("wrong format time_to_die\n", err);
-	if (atoi_philo(argv[3], &(args->time_eating)))
+	if (atoi_philo(argv[3], &(args->time_eat)))
 		error_args("wrong format num_to_eat\n", err);
-	if (atoi_philo(argv[4], &(args->time_unhungry)))
+	if (atoi_philo(argv[4], &(args->time_sleep)))
 		error_args("wrong format time_to_sleep\n", err);
 	if (argv[5] != NULL)
 	{
@@ -46,6 +46,21 @@ static void	get_input_args(int argc, t_args *args, char **argv, int *err)
 			error_args(\
 			"wrong format number_of_times_a_philosopher_must_eat\n", err);
 	}
+}
+
+static int	init_mutexes(t_args *args)
+{
+	if (pthread_mutex_init(&(args->mutex_philo), NULL))
+	{
+		perror("process_argv: mutex init mutex_philo");
+		return (1);
+	}
+	if (pthread_mutex_init(&(args->mutex_death), NULL))
+	{
+		perror("process_argv: mutex init mutex_death");
+		return (1);
+	}
+	return (0);
 }
 
 int	process_argv(int argc, char **argv, t_args *args)
@@ -62,16 +77,9 @@ int	process_argv(int argc, char **argv, t_args *args)
 		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
 		return (1);
 	}
-	if (pthread_mutex_init(&(args->mutex_philo), NULL))
+	if (init_mutexes(args))
 	{
 		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
-		perror("process_argv: mutex init mutex_philo");
-		return (1);
-	}
-	if (pthread_mutex_init(&(args->mutex_start), NULL))
-	{
-		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
-		perror("process_argv: mutex init mutex_start");
 		return (1);
 	}
 	return (0);
