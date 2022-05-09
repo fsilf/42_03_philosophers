@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 15:43:09 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 20:33:56 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:30:37 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,6 @@ int	wait_for_threads(t_id_store *pthread_ids, ssize_t num_philo)
 		printf("finish %zd\n", i);
 		i++;
 	}
-	/*
-	if (pthread_join(pthread_ids->print_id, NULL))
-	{
-		free(pthread_ids->philo_ids);
-		perror("send_printing_queue: pthread_join");
-		return (1);
-	}
-	*/
-	return (0);
-}
-
-static int	send_threads(t_args *args, t_id_store *pthread_ids)
-{
-	if (send_start_philos(args, pthread_ids))
-		return (1);
-	/*
-	block until something in the queue? use some mutex?
-	usleep(5000);
-	if (send_printing_queue(queue_args, pthread_ids))
-		return (1);
-	*/
 	return (0);
 }
 
@@ -77,7 +56,7 @@ int	set_threads(t_args *args)
 		free(pthread_ids.philo_ids);
 		return (1);
 	}
-	if (send_threads(args, &pthread_ids))
+	if (send_start_philos(args, &pthread_ids))
 	{
 		free(pthread_ids.philo_ids);
 		return (1);

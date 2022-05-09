@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 18:54:36 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:31:29 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct args
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	mutex_philo;
 	pthread_mutex_t	mutex_death;
+	pthread_mutex_t	mutex_print;
 	ssize_t			end;
 	ssize_t			start;
 	ssize_t			seated;
@@ -37,7 +38,6 @@ typedef struct args
 typedef struct	s_id_store
 {
 	pthread_t	*philo_ids;
-	//pthread_t	print_id;
 }	t_id_store;
 
 typedef struct s_philo_args
@@ -51,41 +51,9 @@ typedef struct s_philo_args
 	struct timeval	tv_end;
 	ssize_t			fork1;
 	ssize_t			fork2;
-	ssize_t			eating;
 	pthread_t		lives_id;
-	//t_log			**head_log;
-	//pthread_mutex_t	*mutex_queue;
 }	t_philo_args;
 
-/*
-typedef struct s_log
-{
-	char			type;
-	long unsigned	time;
-	ssize_t			num;
-	ssize_t			philo;
-	struct s_log	*prev;
-	struct s_log	*next;
-}	t_log;
-
-typedef struct s_queue_agrs
-{
-	t_log			**head_log;
-	pthread_mutex_t	*mutex;
-	t_log			*log;
-	ssize_t			philo;
-	long unsigned	ms_init;
-}	t_queue_args;
-*/
-
-/*
-typedef struct s_check_life
-{
-	t_args			**args;
-	long unsigned	*philo_lives;
-	t_queue_args	*queue_args;
-}	t_check_life;
-*/
 int				add_ms(struct timeval tv, long unsigned to_add, \
 						struct timeval *res);
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
@@ -93,11 +61,14 @@ int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
 int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 								ssize_t num_philo);
 int				compare_timevals(struct timeval end, struct timeval curr);
+long unsigned	convert_to_milisecs(struct timeval time_all);
 int				custom_sleep(struct timeval end, ssize_t num_philo);
 void			*ft_memset(void *str, int c, size_t len);
+char			*ft_strdup(const char *s1);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
 int				philo_cycle(t_philo_args *philo);
+void			print_msg(t_philo_args *philo, char type, struct timeval tv_msg);
 int				process_argv(int argc, char **argv, t_args *args);
 int				send_check_lives(t_philo_args *philo);
 int				send_start_philos(t_args *args, t_id_store *pthread_ids);
@@ -109,12 +80,10 @@ void			test_print_timeval(struct timeval tv);
 int				check_lives(t_args **args, long unsigned *philo_lives, \
 					t_queue_args *queue_args);
 int				check_death(t_philo_args *philo_args);
-long unsigned	convert_to_milisecs(struct timeval *time_all);
 int				free_main(long unsigned *philo_lives, \
 							t_queue_args *queue_args, t_philo_args *philo_args);
 int				free_philo_args(t_philo_args *philo_args);
 int				free_queue_args(t_queue_args *queue_args);
-char			*ft_strdup(const char *s1);
 long unsigned	ft_timeadd(long unsigned ms_start, long unsigned ms_end);
 long unsigned	ft_timesub(long unsigned ms_start, long unsigned ms_end);
 void			log_addback(t_log **head_log, t_log *new_log, \

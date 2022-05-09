@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 18:53:06 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 21:06:32 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ static int	check_loop(t_philo_args *philo, struct timeval *curr_time)
 	if (compare_timevals(philo->life, *curr_time))
 	{
 		philo->args->end = 1;
-		printf("tv_sec: %ld, tv_usec: %d, philo %zd died\n", \
-				curr_time->tv_sec, curr_time->tv_usec, philo->philo);
+		print_msg(philo, 'd', *curr_time);
 		pthread_mutex_unlock(&(philo->args->mutex_death));
 		return (1);
 	}
 	pthread_mutex_unlock(&(philo->args->mutex_death));
-	usleep(1 * philo->args->num_philo);
+	//usleep(1 * philo->args->num_philo);
+	usleep(200);
 	return (0);
 }
 
@@ -57,8 +57,6 @@ static void	*thread_lives(void *arg)
 
 	philo = (t_philo_args *)arg;
 	ft_memset(&curr_time, 0, sizeof (struct timeval));
-	printf("thread_lives[%zd] with life:%ld secs, %d usecs\n", \
-			philo->philo, philo->life.tv_sec, philo->life.tv_usec);
 	while (1)
 	{
 		if (check_loop(philo, &curr_time))
