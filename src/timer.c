@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 04:18:29 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:58:51 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	compare_timevals(struct timeval end, struct timeval curr)
 	return (0);
 }
 
-int	custom_sleep(t_args *args, struct timeval end)
+int	custom_sleep(struct timeval end)
 {
 	struct timeval	curr_time;
 
@@ -103,10 +103,6 @@ int	custom_sleep(t_args *args, struct timeval end)
 		gettimeofday(&curr_time, NULL);
 		if (compare_timevals(end, curr_time))
 			return (0);
-		pthread_mutex_lock(&(args->mutex_death));
-		if (check_death(args->end, &(args->mutex_death)))
-			return (1) ;
-		pthread_mutex_unlock(&(args->mutex_death));
 		usleep(100);
 	}
 }
