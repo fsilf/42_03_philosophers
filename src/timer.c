@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 13:58:51 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:52:45 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	compare_timevals(struct timeval end, struct timeval curr)
 	return (0);
 }
 
-int	custom_sleep(struct timeval end)
+int	custom_sleep(struct timeval end, ssize_t num_philo)
 {
 	struct timeval	curr_time;
 
@@ -103,7 +103,7 @@ int	custom_sleep(struct timeval end)
 		gettimeofday(&curr_time, NULL);
 		if (compare_timevals(end, curr_time))
 			return (0);
-		usleep(100);
+		usleep(1 * num_philo);
 	}
 }
 

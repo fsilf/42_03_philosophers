@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 15:04:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:56:00 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static int	assign_forks(t_philo_args *philo)
 	if (philo->args->num_philo == 1)
 	{
 		gettimeofday(&(philo->args->tv_init), NULL);
-		printf("tv_sec: %ld, tv_usec: %ld, philo 0 has taken a fork\n", \
+		printf("tv_sec: %ld, tv_usec: %d, philo 0 has taken a fork\n", \
 				philo->args->tv_init.tv_sec, philo->args->tv_init.tv_usec);
 		add_ms(philo->args->tv_init, philo->args->time_life, &(philo->life));
-		printf("tv_sec: %ld, tv_usec: %ld, philo 0 died\n", \
+		printf("tv_sec: %ld, tv_usec: %d, philo 0 died\n", \
 				philo->life.tv_sec, philo->life.tv_usec);
 		return (1);
 	}
@@ -87,14 +87,13 @@ static void	*thread_philo(void *arg)
 	if (start_simulation_sync(args, &philo))
 		return (NULL);
 	if (send_check_lives(&philo))
-		return (NULL);
+		return (NULL) ;
 	if (philo.philo % 2 == 0)
 	{
 		add_ms(args->tv_init, args->time_eat, &(philo.tv_end));
-		custom_sleep(philo.tv_end);
+		custom_sleep(philo.tv_end, args->num_philo);
 	}
-	if (philo_cycle(&philo))
-		return (NULL);
+	philo_cycle(&philo);
 	if (pthread_join(philo.lives_id, NULL))
 	{
 		perror("thread_philo: pthread_join lives_id");

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 13:59:56 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:54:36 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
 int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 								ssize_t num_philo);
 int				compare_timevals(struct timeval end, struct timeval curr);
-int				custom_sleep(struct timeval end);
+int				custom_sleep(struct timeval end, ssize_t num_philo);
 void			*ft_memset(void *str, int c, size_t len);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);

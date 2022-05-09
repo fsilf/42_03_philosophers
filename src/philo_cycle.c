@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 15:06:47 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 18:55:00 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,36 +66,36 @@ int	philo_cycle(t_philo_args *philo)
 			release_forks(philo);
 			return (1);
 		}
-		printf("sec:%ld, usec:%ld, philo:%zd has taken a fork\n", \
+		printf("sec:%ld, usec:%d, philo:%zd has taken a fork\n", \
 				philo->tv_fork1.tv_sec, philo->tv_fork1.tv_usec, \
 				philo->philo);
-		printf("sec:%ld, usec:%ld, philo:%zd has taken a fork\n", \
+		printf("sec:%ld, usec:%d, philo:%zd has taken a fork\n", \
 				philo->tv_fork2.tv_sec, philo->tv_fork2.tv_usec, \
 				philo->philo);
-		printf("sec:%ld, usec:%ld, philo:%zd is eating\n", \
+		printf("sec:%ld, usec:%d, philo:%zd is eating\n", \
 				philo->tv_begin.tv_sec, philo->tv_begin.tv_usec, \
 				philo->philo);
-		printf("sec:%ld, usec:%ld, philo:%zd philo->life\n", \
+		printf("sec:%ld, usec:%d, philo:%zd philo->life\n", \
 				philo->life.tv_sec, philo->life.tv_usec, \
 				philo->philo);
-		printf("sec:%ld, usec:%ld, philo:%zd philo->tv_end\n", \
+		printf("sec:%ld, usec:%d, philo:%zd philo->tv_end\n", \
 				philo->tv_end.tv_sec, philo->tv_end.tv_usec, \
 				philo->philo);
-		custom_sleep(philo->tv_end);
+		custom_sleep(philo->tv_end, philo->args->num_philo);
 		release_forks(philo);
 		if (check_death(philo->args->end, &(philo->args->mutex_death)))
 			return (1);
-		printf("sec:%ld, usec:%ld, philo:%zd is sleeping\n", \
+		printf("sec:%ld, usec:%d, philo:%zd is sleeping\n", \
 				philo->tv_begin.tv_sec, philo->tv_begin.tv_usec, \
 				philo->philo);
-		custom_sleep(philo->tv_end);
+		custom_sleep(philo->tv_end, philo->args->num_philo);
 		gettimeofday(&(philo->tv_begin), NULL);
 		if (check_death(philo->args->end, &(philo->args->mutex_death)))
 			return (1);
-		printf("sec:%ld, usec:%ld, philo:%zd is thinking\n", \
+		printf("sec:%ld, usec:%d, philo:%zd is thinking\n", \
 				philo->tv_begin.tv_sec, philo->tv_begin.tv_usec, \
 				philo->philo);
-		usleep(100);
+		usleep(1 * philo->args->num_philo);
 		/*
 		if (philo_step(philo_args, &queue_args, 's'))
 			return (NULL);
