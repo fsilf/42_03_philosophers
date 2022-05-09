@@ -35,8 +35,8 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 INC = $(addprefix -I, $(INC_DIR))
 
 CC = gcc
-CFLAG = -Werror -Wall -Wextra -g3 -fsanitize=address
-#CFLAG = -Werror -Wall -Wextra -g3
+#CFLAG = -Werror -Wall -Wextra -g3 -fsanitize=address
+CFLAG = -Werror -Wall -Wextra -g3
 RM = rm -rf
 
 .PHONY: fclean all clean re

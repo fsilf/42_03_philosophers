@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 00:07:14 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 03:38:33 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ typedef struct args
 {
 	ssize_t			num_philo;
 	ssize_t			time_life;
-	ssize_t			time_eating;
-	ssize_t			time_unhungry;
+	ssize_t			time_eat;
+	ssize_t			time_sleep;
 	ssize_t			num_loops;
 	ssize_t			*forks;
 	pthread_mutex_t	*mutex_fork;
@@ -29,6 +29,7 @@ typedef struct args
 	pthread_mutex_t	mutex_start;
 	pthread_mutex_t	mutex_death;
 	ssize_t			end;
+	ssize_t			start;
 	ssize_t			philo;
 	struct timeval	tv_init;
 }				t_args;
@@ -44,10 +45,13 @@ typedef struct s_philo_args
 	t_args			*args;
 	ssize_t			philo;
 	struct timeval	life;
+	struct timeval	tv_fork1;
+	struct timeval	tv_fork2;
 	struct timeval	tv_begin;
 	struct timeval	tv_end;
 	ssize_t			fork1;
 	ssize_t			fork2;
+	ssize_t			eating;
 	pthread_t		lives_id;
 	//t_log			**head_log;
 	//pthread_mutex_t	*mutex_queue;
@@ -89,6 +93,7 @@ int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
 int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 								ssize_t num_philo);
 int				compare_timevals(struct timeval end, struct timeval curr);
+int				custom_sleep(t_args *args, struct timeval end);
 void			*ft_memset(void *str, int c, size_t len);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);

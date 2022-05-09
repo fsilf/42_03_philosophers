@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 23:55:27 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 00:59:40 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static void	get_input_args(int argc, t_args *args, char **argv, int *err)
 		error_args("wrong format num_philosophers\n", err);
 	if (atoi_philo(argv[2], &(args->time_life)))
 		error_args("wrong format time_to_die\n", err);
-	if (atoi_philo(argv[3], &(args->time_eating)))
+	if (atoi_philo(argv[3], &(args->time_eat)))
 		error_args("wrong format num_to_eat\n", err);
-	if (atoi_philo(argv[4], &(args->time_unhungry)))
+	if (atoi_philo(argv[4], &(args->time_sleep)))
 		error_args("wrong format time_to_sleep\n", err);
 	if (argv[5] != NULL)
 	{

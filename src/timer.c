@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 21:51:13 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 04:18:29 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ int	ft_timesub(struct timeval start, struct timeval end, struct timeval *res)
 	}
 	return (0);
 }
+int	copy_timevals(struct timeval ori, struct timeval *dest)
+{
+	dest->tv_usec = ori.tv_usec;
+	dest->tv_sec = ori.tv_sec;
+	return (0);
+}
 */
+
 int	add_ms(struct timeval tv, long unsigned to_add, struct timeval *res)
 {
 	res->tv_usec = \
@@ -86,14 +93,22 @@ int	compare_timevals(struct timeval end, struct timeval curr)
 	return (0);
 }
 
-int	custom_sleep(struct timeval end)
+int	custom_sleep(t_args *args, struct timeval end)
 {
 	struct timeval	curr_time;
 
-	gettimeofday(&curr_time, NULL);
-	if (compare_timevals(end, curr_time))
+	ft_memset(&curr_time, 0, sizeof (struct timeval));
+	while (1)
+	{
+		gettimeofday(&curr_time, NULL);
+		if (compare_timevals(end, curr_time))
+			return (0);
+		pthread_mutex_lock(&(args->mutex_death));
+		if (check_death(args->end, &(args->mutex_death)))
+			return (1) ;
+		pthread_mutex_unlock(&(args->mutex_death));
 		usleep(100);
-	return (0);
+	}
 }
 
 /*
