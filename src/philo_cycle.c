@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 14:08:02 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:06:47 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	philo_cycle(t_philo_args *philo)
 		printf("sec:%ld, usec:%ld, philo:%zd is thinking\n", \
 				philo->tv_begin.tv_sec, philo->tv_begin.tv_usec, \
 				philo->philo);
-		usleep(50);
+		usleep(100);
 		/*
 		if (philo_step(philo_args, &queue_args, 's'))
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 14:38:42 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:04:03 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	send_start_philos(t_args *args, t_id_store *pthread_ids)
 			perror("send_start_philos: pthread_create");
 			return (1);
 		}
+		usleep(1000);
 		i++;
 	}
 	return (0);
