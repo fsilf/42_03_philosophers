@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 12:06:18 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 16:46:29 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/10 10:39:41 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 #include <unistd.h>
 #include "philo.h"
 
-int	cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
-					ssize_t num_philo)
+int	cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork)
 {
 	ssize_t	i;
 
@@ -28,12 +27,12 @@ int	cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
 		write(2, "cleanup_forks: mutex_fork == NULL\n", 34);
 		return (0);
 	}
-	while (i < num_philo)
+	/*while (i < num_philo)
 	{
 		if (pthread_mutex_destroy(&(mutex_fork[i])))
 			perror("free_forks mutex_destroy");
 		i++;
-	}
+	}*/
 	free(mutex_fork);
 	mutex_fork = NULL;
 	return (0);

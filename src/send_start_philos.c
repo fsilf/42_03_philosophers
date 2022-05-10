@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 21:25:35 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:05:26 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ static int	assign_forks(t_philo_args *philo)
 	if (philo->args->num_philo == 1)
 	{
 		gettimeofday(&(philo->args->tv_init), NULL);
-		print_msg(philo, 'f', philo->args->tv_init);
-		add_ms(philo->args->tv_init, philo->args->time_life + 1, \
-				&(philo->life));
-		print_msg(philo, 'd', philo->life);
+		printf("0 0 has taken a fork\n");
+		printf("%zd 0 died\n", philo->args->time_life + 1);
 		return (1);
 	}
 	if (philo->philo % 2 == 0)
@@ -55,8 +53,10 @@ int	start_simulation_sync(t_args *args, t_philo_args *philo)
 	{
 		gettimeofday(&(args->tv_init), NULL);
 		test_print_timeval(args->tv_init);
-		args->start = 1;
 		add_ms(args->tv_init, args->time_life, &(philo->life));
+		args->mu_init = convert_to_milisecs(philo->args->tv_init);
+		args->start = 1;
+		//args->mu_init = convert_to_microsecs(philo->args->tv_init);
 	}
 	else
 	{
@@ -67,7 +67,7 @@ int	start_simulation_sync(t_args *args, t_philo_args *philo)
 				add_ms(args->tv_init, args->time_life, &(philo->life));
 				break ;
 			}
-			usleep(100);
+			usleep(50);
 		}
 	}
 	return (0);
@@ -90,7 +90,7 @@ static void	*thread_philo(void *arg)
 	if (philo.philo % 2 == 0)
 	{
 		add_ms(args->tv_init, args->time_eat, &(philo.tv_end));
-		custom_sleep(philo.tv_end, args->num_philo);
+		custom_sleep(philo.tv_end);
 	}
 	philo_cycle(&philo);
 	if (pthread_join(philo.lives_id, NULL))

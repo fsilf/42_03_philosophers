@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 21:06:32 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:21:02 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ static int	check_loop(t_philo_args *philo, struct timeval *curr_time)
 	gettimeofday(curr_time, NULL);
 	if (compare_timevals(philo->life, *curr_time))
 	{
+		print_msg(philo, 'd');
 		philo->args->end = 1;
-		print_msg(philo, 'd', *curr_time);
 		pthread_mutex_unlock(&(philo->args->mutex_death));
 		return (1);
 	}
 	pthread_mutex_unlock(&(philo->args->mutex_death));
 	//usleep(1 * philo->args->num_philo);
-	usleep(200);
+	usleep(50);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 21:31:29 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:53:38 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct args
 	ssize_t			seated;
 	ssize_t			philo;
 	struct timeval	tv_init;
+	long unsigned	mu_init;
 }				t_args;
 
 typedef struct	s_id_store
@@ -58,17 +59,21 @@ int				add_ms(struct timeval tv, long unsigned to_add, \
 						struct timeval *res);
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
-int				cleanup_forks(ssize_t *forks, pthread_mutex_t *mutex_fork, \
-								ssize_t num_philo);
 int				compare_timevals(struct timeval end, struct timeval curr);
-long unsigned	convert_to_milisecs(struct timeval time_all);
-int				custom_sleep(struct timeval end, ssize_t num_philo);
+long unsigned	convert_to_microsecs(struct timeval time_all);
+unsigned		convert_to_milisecs(struct timeval time_all);
+int				custom_sleep(struct timeval end);
+int				custom_sleep_philo(struct timeval end, ssize_t num_philo);
 void			*ft_memset(void *str, int c, size_t len);
 char			*ft_strdup(const char *s1);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
+void			ft_timesub(struct timeval init, struct timeval curr, \
+							struct timeval *res);
+void			ft_timesub_ms(struct timeval init, struct timeval curr, \
+						unsigned *res_ms);
 int				philo_cycle(t_philo_args *philo);
-void			print_msg(t_philo_args *philo, char type, struct timeval tv_msg);
+int				print_msg(t_philo_args *philo, char type);
 int				process_argv(int argc, char **argv, t_args *args);
 int				send_check_lives(t_philo_args *philo);
 int				send_start_philos(t_args *args, t_id_store *pthread_ids);

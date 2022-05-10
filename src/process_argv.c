@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 20:18:23 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:20:14 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,8 @@ int	process_argv(int argc, char **argv, t_args *args)
 	if (err == 1)
 		return (1);
 	if (set_forks(args))
-	{
-		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
 		return (1);
-	}
 	if (init_mutexes(args))
-	{
-		cleanup_forks(args->forks, args->mutex_fork, args->num_philo);
 		return (1);
-	}
 	return (0);
 }

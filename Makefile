@@ -6,7 +6,6 @@ INC_DIR = ./inc/
 
 SRC =	main.c\
 		atoi_philo.c\
-		frees.c\
 		libft_functions.c\
 		philo_cycle.c\
 		print_msg.c\
