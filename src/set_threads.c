@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 15:43:09 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 21:30:37 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/11 19:51:58 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int	wait_for_threads(t_id_store *pthread_ids, ssize_t num_philo)
 		printf("finish %zd\n", i);
 		i++;
 	}
+	if (pthread_join(pthread_ids->get_time_id, NULL))
+	{
+		perror("wait_for_threads: pthread_join get_time_id");
+		return (1);
+	}
 	return (0);
 }
 
@@ -52,6 +57,11 @@ int	set_threads(t_args *args)
 	t_id_store		pthread_ids;
 
 	if (init_pthread_philo_ids(&pthread_ids, args->num_philo))
+	{
+		free(pthread_ids.philo_ids);
+		return (1);
+	}
+	if (send_get_time(args, &(pthread_ids.get_time_id)))
 	{
 		free(pthread_ids.philo_ids);
 		return (1);

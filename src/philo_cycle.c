@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/10 14:30:55 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/11 20:06:00 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ static int	release_forks_and_set_sleep(t_philo_args *philo)
 	pthread_mutex_unlock(&(philo->args->mutex_fork[philo->fork1]));
 	philo->args->forks[philo->fork2] = 0;
 	pthread_mutex_unlock(&(philo->args->mutex_fork[philo->fork2]));
-	gettimeofday(&(philo->tv_begin), NULL);
-	print_msg(philo, 's');
-	add_ms(philo->tv_begin, philo->args->time_sleep, &(philo->tv_end));
+	if (print_msg(philo, 's'))
+		return (1);
 	return (0);
 }
 
@@ -33,11 +32,13 @@ static int	take_fork2(t_philo_args *philo)
 	if (philo->args->forks[philo->fork2] == 0)
 	{
 		philo->args->forks[philo->fork2] = 1;
+		/*
 		if (print_msg(philo, 'f'))
 		{
 			release_forks_and_set_sleep(philo);
 			return (0);
 		}
+		*/
 	}
 	else
 		return (1);
@@ -73,17 +74,18 @@ static int	take_forks(t_philo_args *philo)
 	res = take_fork1(philo);
 	if (res != 2)
 		return (res);
-	gettimeofday(&(philo->tv_begin), NULL);
-	add_ms(philo->tv_begin, philo->args->time_eat, &(philo->tv_end));
 	pthread_mutex_lock(&(philo->args->mutex_death));
-	add_ms(philo->tv_begin, philo->args->time_life, &(philo->life));
+	philo->mu_start_action = philo->args->mu_since; // move 
 	pthread_mutex_unlock(&(philo->args->mutex_death));
-	if (print_msg(philo, 'e'))
+	if (philo->mu_start_action != 0)
+		philo->life = philo->mu_start_action + (philo->args->time_life * 1000);
+	else
+		return (0);
+	if (print_msg(philo, 'e'))// print second fork and eat together
 	{
 		release_forks_and_set_sleep(philo);
 		return (0);
 	}
-		
 	return (0);
 }
 
@@ -96,14 +98,18 @@ int	philo_cycle(t_philo_args *philo)
 			write(2, "philo_cycle: take_forks error", 29);
 			return (1);
 		}
-		custom_sleep(philo->tv_end);
+		if (custom_sleep(philo, philo->args->time_eat))
+		{
+			release_forks_and_set_sleep(philo);
+			return (0);
+		}
 		if (release_forks_and_set_sleep(philo))
-			return (1);
-		custom_sleep(philo->tv_end);
+			return (0);
+		if (custom_sleep(philo, philo->args->time_sleep))
+			return (0);
 		if (print_msg(philo, 't'))
 			return (1);
-		//usleep(1 * philo->args->num_philo);
-		usleep(101);
+		usleep(200);
 	}
 	return (0);
 }

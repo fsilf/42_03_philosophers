@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/10 14:56:10 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/11 20:04:21 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ int	add_ms(struct timeval tv, long unsigned to_add, struct timeval *res)
 	return (0);
 }
 
+/*
+int	compare_mu(long unsigned mu_end, long unsigned mu_since)
+{
+	if (mu_since > mu_end)
+		return (1);
+	return (0);
+}
+
 int	compare_timevals(struct timeval end, struct timeval curr)
 {
 	if (curr.tv_sec > end.tv_sec)
@@ -33,62 +41,27 @@ int	compare_timevals(struct timeval end, struct timeval curr)
 	}
 	return (0);
 }
+*/
 
-int	custom_sleep(struct timeval end)
+int	custom_sleep(t_philo_args *philo, ssize_t ms_to_wait)
 {
-	struct timeval	curr_time;
+	long unsigned	mu_since;
+	long unsigned	mu_end;
 
-	ft_memset(&curr_time, 0, sizeof (struct timeval));
+	pthread_mutex_lock(&(philo->args->mutex_death));
+	mu_since = philo->args->mu_since;
+	pthread_mutex_unlock(&(philo->args->mutex_death));
+	mu_end = mu_since + (ms_to_wait * 1000);
 	while (1)
 	{
-		gettimeofday(&curr_time, NULL);
-		if (compare_timevals(end, curr_time))
+		if (philo->args->end == 1)
+			return (1);
+		pthread_mutex_lock(&(philo->args->mutex_death));
+		mu_since = philo->args->mu_since;
+		pthread_mutex_unlock(&(philo->args->mutex_death));
+		if(mu_since >= mu_end)
 			return (0);
-		usleep(200);
-	}
-}
-
-int	custom_sleep_philo(struct timeval end, ssize_t num_philo)
-{
-	struct timeval	curr_time;
-
-	ft_memset(&curr_time, 0, sizeof (struct timeval));
-	while (1)
-	{
-		gettimeofday(&curr_time, NULL);
-		if (compare_timevals(end, curr_time))
-			return (0);
-		usleep(1 * num_philo);
-	}
-}
-
-void	ft_timesub(struct timeval init, struct timeval curr, \
-					struct timeval *res)
-{
-	if (curr.tv_usec < init.tv_usec)
-	{
-		res->tv_usec = 1000000 - (init.tv_usec - curr.tv_usec);
-		res->tv_sec = curr.tv_sec - init.tv_sec - 1;
-	}
-	else
-	{
-		res->tv_usec = curr.tv_usec - init.tv_usec;
-		res->tv_sec = curr.tv_sec - init.tv_sec;
-	}
-}
-
-void	ft_timesub_ms(struct timeval init, struct timeval curr, \
-						unsigned *res_ms)
-{
-	if (curr.tv_usec < init.tv_usec)
-	{
-		*res_ms = ((curr.tv_sec - init.tv_sec - 1) * 1000) + \
-					((1000000 - (init.tv_usec - curr.tv_usec)) / 1000);
-	}
-	else
-	{
-		*res_ms = ((curr.tv_usec - init.tv_usec) / 1000) + \
-					((curr.tv_sec - init.tv_sec) * 1000);
+		usleep(200);// coordinar con usleep de get_time
 	}
 }
 

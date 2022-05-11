@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 19:40:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/10 15:13:30 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/11 20:06:36 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,40 +41,41 @@ static void	ft_putnbr_fd(unsigned num, int fd)
 */
 static void	get_msg(char **msg, char type)
 {
-	if (type == 'f')
-		*msg = ft_strdup("has taken a fork\n");
-	if (type == 'e')
-		*msg = ft_strdup("is eating\n");
+	if (type == 'f' || type == 'e')
+		*msg = ft_strdup("has taken a fork");
+	if (type == 'r')
+		*msg = ft_strdup("is eating");
 	if (type == 's')
-		*msg = ft_strdup("is sleeping\n");
+		*msg = ft_strdup("is sleeping");
 	if (type == 't')
-		*msg = ft_strdup("is thinking\n");
+		*msg = ft_strdup("is thinking");
 	if (type == 'd')
 		*msg = ft_strdup("has died");
 }
 
 int	print_msg(t_philo_args *philo, char type)
 {
-	struct timeval	tv_msg;
-	struct timeval	res;
-	unsigned		res_ms;
+	long unsigned	ms_since;
 	char			*msg;
 
 	get_msg(&msg, type);
 	pthread_mutex_lock(&(philo->args->mutex_print));
+	//pthread_mutex_lock(&(philo->args->mutex_death));//try removing this lock
+	ms_since = philo->args->mu_since;
+	//pthread_mutex_unlock(&(philo->args->mutex_death));
 	if (philo->args->end == 1)
 	{
 		pthread_mutex_unlock(&(philo->args->mutex_print));
 		return (1);
 	}
-	gettimeofday(&tv_msg, NULL);
-	//ft_timesub_ms(philo->args->tv_init, tv_msg, &res_ms);
-	ft_timesub(philo->args->tv_init, tv_msg, &res);
-	res_ms = convert_to_milisecs(res);
-	if (type == 'd')
-		printf("%d %zd %s\n", res_ms, philo->philo, msg);
-	else
-		printf("%d %zd %s", res_ms, philo->philo, msg);
+	ms_since = ms_since / 1000;
+	printf("%ld %zd %s\n", ms_since, philo->philo, msg);
+	if (type == 'e')
+	{
+		free(msg);
+		get_msg(&msg, 'r');
+		printf("%ld %zd %s\n", ms_since, philo->philo, msg);
+	}
 	pthread_mutex_unlock(&(philo->args->mutex_print));
 	/*
 	ft_putnbr_fd(convert_to_milisecs(res), fd);

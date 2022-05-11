@@ -11,6 +11,7 @@ SRC =	main.c\
 		print_msg.c\
 		process_argv.c\
 		send_check_lives.c\
+		send_get_time.c\
 		send_start_philos.c\
 		set_forks.c\
 		set_threads.c\

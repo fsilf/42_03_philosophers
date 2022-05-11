@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/10 14:53:38 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/11 17:38:01 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct args
 	pthread_mutex_t	mutex_philo;
 	pthread_mutex_t	mutex_death;
 	pthread_mutex_t	mutex_print;
+	//unsigned		ms_since;
+	long unsigned	mu_since;
 	ssize_t			end;
 	ssize_t			start;
 	ssize_t			seated;
@@ -39,43 +41,34 @@ typedef struct args
 typedef struct	s_id_store
 {
 	pthread_t	*philo_ids;
+	pthread_t	get_time_id;
 }	t_id_store;
 
 typedef struct s_philo_args
 {
 	t_args			*args;
 	ssize_t			philo;
-	struct timeval	life;
-	struct timeval	tv_fork1;
-	struct timeval	tv_fork2;
-	struct timeval	tv_begin;
-	struct timeval	tv_end;
+	long unsigned	life;
+	long unsigned	mu_start_action;			
 	ssize_t			fork1;
 	ssize_t			fork2;
 	pthread_t		lives_id;
 }	t_philo_args;
 
-int				add_ms(struct timeval tv, long unsigned to_add, \
-						struct timeval *res);
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
 int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
-int				compare_timevals(struct timeval end, struct timeval curr);
 long unsigned	convert_to_microsecs(struct timeval time_all);
 unsigned		convert_to_milisecs(struct timeval time_all);
-int				custom_sleep(struct timeval end);
-int				custom_sleep_philo(struct timeval end, ssize_t num_philo);
+int				custom_sleep(t_philo_args *philo, ssize_t ms_to_wait);
 void			*ft_memset(void *str, int c, size_t len);
 char			*ft_strdup(const char *s1);
 char			*ft_strjoin(const char *s1, const char *s2);
 size_t			ft_strlen(const char *s);
-void			ft_timesub(struct timeval init, struct timeval curr, \
-							struct timeval *res);
-void			ft_timesub_ms(struct timeval init, struct timeval curr, \
-						unsigned *res_ms);
 int				philo_cycle(t_philo_args *philo);
 int				print_msg(t_philo_args *philo, char type);
 int				process_argv(int argc, char **argv, t_args *args);
 int				send_check_lives(t_philo_args *philo);
+int				send_get_time(t_args *args, pthread_t *get_time_id);
 int				send_start_philos(t_args *args, t_id_store *pthread_ids);
 int				set_forks(t_args *args);
 int				set_threads(t_args *args);
