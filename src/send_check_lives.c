@@ -6,13 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/09 21:06:32 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:21:43 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <stdio.h>
-#include <sys/time.h>
 #include "philo.h"
 
 int	check_death(ssize_t end, pthread_mutex_t *mutex_death)
@@ -27,41 +25,33 @@ int	check_death(ssize_t end, pthread_mutex_t *mutex_death)
 	return (0);
 }
 
-static int	check_loop(t_philo_args *philo, struct timeval *curr_time)
-{
-	if (pthread_mutex_lock(&(philo->args->mutex_death)))
-		perror("thread_lives: mutex_lock mutex_death");
-	if (philo->args->end == 1)
-	{
-		pthread_mutex_unlock(&(philo->args->mutex_death));
-		return (1);
-	}
-	gettimeofday(curr_time, NULL);
-	if (compare_timevals(philo->life, *curr_time))
-	{
-		philo->args->end = 1;
-		print_msg(philo, 'd', *curr_time);
-		pthread_mutex_unlock(&(philo->args->mutex_death));
-		return (1);
-	}
-	pthread_mutex_unlock(&(philo->args->mutex_death));
-	//usleep(1 * philo->args->num_philo);
-	usleep(200);
-	return (0);
-}
-
 static void	*thread_lives(void *arg)
 {
 	t_philo_args	*philo;
-	struct timeval	curr_time;
 
 	philo = (t_philo_args *)arg;
-	ft_memset(&curr_time, 0, sizeof (struct timeval));
+	while (philo->life == 0)
+		usleep(50);
 	while (1)
 	{
-		if (check_loop(philo, &curr_time))
+		if (pthread_mutex_lock(&(philo->args->mutex_death)))
+			perror("thread_lives: mutex_lock mutex_death");
+		if (philo->args->end == 1)
+		{
+			pthread_mutex_unlock(&(philo->args->mutex_death));
 			return (NULL);
+		}
+		if (philo->args->mu_since > philo->life)
+		{
+			print_msg(philo, 'd');
+			philo->args->end = 1;
+			pthread_mutex_unlock(&(philo->args->mutex_death));
+			return (NULL);
+		}
+		pthread_mutex_unlock(&(philo->args->mutex_death));
+		usleep(800);
 	}
+	return (NULL);
 }
 
 int	send_check_lives(t_philo_args *philo)
