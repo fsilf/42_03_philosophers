@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/11 20:09:01 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 10:50:33 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,7 @@ int	check_death(ssize_t end, pthread_mutex_t *mutex_death)
 	pthread_mutex_unlock(mutex_death);
 	return (0);
 }
-/*
-static int	check_loop(t_philo_args *philo, struct timeval *curr_time)
-{
-	if (pthread_mutex_lock(&(philo->args->mutex_death)))
-		perror("thread_lives: mutex_lock mutex_death");
-	if (philo->args->end == 1)
-	{
-		pthread_mutex_unlock(&(philo->args->mutex_death));
-		return (1);
-	}
-	if (philo->args->mu_since > philo->mu_life)
-	{
-		print_msg(philo, 'd'); //00! antes o despues de setear end = 1?
-		philo->args->end = 1;
-		pthread_mutex_unlock(&(philo->args->mutex_death));
-		philo->args->mu_since = 0;//esta bien reseteando a 0?
-		return (1);
-	}
-	pthread_mutex_unlock(&(philo->args->mutex_death));
-	usleep(200);// coordinar con get_time usleep (poner el mismo)
-	return (0);
-}
-*/
+
 static void	*thread_lives(void *arg)
 {
 	t_philo_args	*philo;
@@ -58,8 +36,6 @@ static void	*thread_lives(void *arg)
 		usleep(50);
 	while (1)
 	{
-		//if (check_loop(philo, &curr_time))
-		//	return (NULL);
 		if (pthread_mutex_lock(&(philo->args->mutex_death)))
 			perror("thread_lives: mutex_lock mutex_death");
 		if (philo->args->end == 1)
@@ -69,13 +45,13 @@ static void	*thread_lives(void *arg)
 		}
 		if (philo->args->mu_since > philo->life)
 		{
-			print_msg(philo, 'd'); //00! antes o despues de setear end = 1?
+			print_msg(philo, 'd');
 			philo->args->end = 1;
 			pthread_mutex_unlock(&(philo->args->mutex_death));
 			return (NULL);
 		}
 		pthread_mutex_unlock(&(philo->args->mutex_death));
-		usleep(200);// coordinar con get_time usleep (poner el mismo)
+		usleep(800);
 	}
 	return (NULL);
 }

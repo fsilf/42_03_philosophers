@@ -17,20 +17,6 @@ SRC =	main.c\
 		set_threads.c\
 		timer.c\
 		test_prints.c
-		#check_death.c\
-		check_life.c\
-		log.c\
-		log_print.c\
-		log_search_min.c\
-		philo_main.c\
-		philo_step.c\
-		send_log.c\
-		send_printing_queue.c\
-		set_local_queue_args.c\
-		set_philo_args.c\
-		set_queue_args.c\
-		thread_functions.c\
-		thread_philo.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 INC = $(addprefix -I, $(INC_DIR))

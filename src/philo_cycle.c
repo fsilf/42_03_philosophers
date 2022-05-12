@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/11 20:06:00 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 10:53:01 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,7 @@ static int	take_fork2(t_philo_args *philo)
 {
 	pthread_mutex_lock(&(philo->args->mutex_fork[philo->fork2]));
 	if (philo->args->forks[philo->fork2] == 0)
-	{
 		philo->args->forks[philo->fork2] = 1;
-		/*
-		if (print_msg(philo, 'f'))
-		{
-			release_forks_and_set_sleep(philo);
-			return (0);
-		}
-		*/
-	}
 	else
 		return (1);
 	return (2);
@@ -75,13 +66,13 @@ static int	take_forks(t_philo_args *philo)
 	if (res != 2)
 		return (res);
 	pthread_mutex_lock(&(philo->args->mutex_death));
-	philo->mu_start_action = philo->args->mu_since; // move 
+	philo->mu_start_action = philo->args->mu_since;
 	pthread_mutex_unlock(&(philo->args->mutex_death));
 	if (philo->mu_start_action != 0)
 		philo->life = philo->mu_start_action + (philo->args->time_life * 1000);
 	else
 		return (0);
-	if (print_msg(philo, 'e'))// print second fork and eat together
+	if (print_msg(philo, 'e'))
 	{
 		release_forks_and_set_sleep(philo);
 		return (0);
