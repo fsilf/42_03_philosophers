@@ -6,13 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 10:53:01 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:21:22 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <stdio.h>
-#include <unistd.h>
 #include "philo.h"
 
 static int	release_forks_and_set_sleep(t_philo_args *philo)
@@ -21,6 +19,8 @@ static int	release_forks_and_set_sleep(t_philo_args *philo)
 	pthread_mutex_unlock(&(philo->args->mutex_fork[philo->fork1]));
 	philo->args->forks[philo->fork2] = 0;
 	pthread_mutex_unlock(&(philo->args->mutex_fork[philo->fork2]));
+	if (check_num_loops(philo))
+		return (1);
 	if (print_msg(philo, 's'))
 		return (1);
 	return (0);
@@ -100,7 +100,8 @@ int	philo_cycle(t_philo_args *philo)
 			return (0);
 		if (print_msg(philo, 't'))
 			return (1);
-		usleep(200);
+		if (philo->args->num_philo < 10)
+			usleep(1000);
 	}
 	return (0);
 }

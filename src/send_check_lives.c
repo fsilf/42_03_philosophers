@@ -6,13 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 10:50:33 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:21:43 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <stdio.h>
-#include <sys/time.h>
 #include "philo.h"
 
 int	check_death(ssize_t end, pthread_mutex_t *mutex_death)

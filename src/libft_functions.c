@@ -6,12 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 12:04:10 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 12:06:54 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:23:21 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include "philo.h"
 
 void	*ft_memset(void *str, int c, size_t len)

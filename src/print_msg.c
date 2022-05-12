@@ -6,13 +6,12 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 19:40:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 10:57:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:23:32 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "philo.h"
 
 static void	get_msg(char **msg, char type)

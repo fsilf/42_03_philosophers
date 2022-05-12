@@ -6,14 +6,12 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/11 20:10:39 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:24:52 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
 #include "philo.h"
 
 static int	assign_forks(t_philo_args *philo)
@@ -53,7 +51,6 @@ static int	start_simulation_sync(t_args *args, t_philo_args *philo)
 	{
 		pthread_mutex_lock(&(args->mutex_death));
 		gettimeofday(&(args->tv_init), NULL);
-		test_print_timeval(args->tv_init);
 		args->mu_init = convert_to_microsecs(args->tv_init);
 		pthread_mutex_unlock(&(args->mutex_death));
 		args->start = 1;
@@ -89,7 +86,7 @@ static void	*thread_philo(void *arg)
 	if (send_check_lives(&philo))
 		return (NULL);
 	usleep(1000);
-	if (philo.philo % 2 == 0)
+	if (philo.philo % 2 == 1)
 		custom_sleep(&philo, args->time_eat);
 	philo_cycle(&philo);
 	if (pthread_join(philo.lives_id, NULL))

@@ -6,11 +6,10 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 11:59:50 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 11:10:18 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:22:35 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/time.h>
 #include "philo.h"
 
 int	custom_sleep(t_philo_args *philo, ssize_t ms_to_wait)

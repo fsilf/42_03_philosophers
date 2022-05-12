@@ -6,12 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:57:07 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 11:04:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:22:03 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <pthread.h>
 #include "philo.h"
 
 static void	*thread_get_time(void *arg)

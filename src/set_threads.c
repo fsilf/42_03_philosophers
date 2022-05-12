@@ -6,11 +6,10 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 15:43:09 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/11 19:51:58 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:20:45 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "philo.h"
@@ -41,7 +40,6 @@ int	wait_for_threads(t_id_store *pthread_ids, ssize_t num_philo)
 			perror("wait_for_threads: pthread_join philo_ids");
 			return (1);
 		}
-		printf("finish %zd\n", i);
 		i++;
 	}
 	if (pthread_join(pthread_ids->get_time_id, NULL))

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/12 18:58:28 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 11:12:30 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:25:01 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct args
 	ssize_t			time_eat;
 	ssize_t			time_sleep;
 	ssize_t			num_loops;
+	ssize_t			*counter;
 	ssize_t			*forks;
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	mutex_philo;
@@ -55,7 +56,7 @@ typedef struct s_philo_args
 }	t_philo_args;
 
 ssize_t			atoi_philo(const char *str, ssize_t *ptr_num);
-int				check_death(ssize_t end, pthread_mutex_t *mutex_death);
+int				check_num_loops(t_philo_args *philo);
 long unsigned	convert_to_microsecs(struct timeval time_all);
 int				custom_sleep(t_philo_args *philo, ssize_t ms_to_wait);
 void			*ft_memset(void *str, int c, size_t len);
@@ -70,6 +71,4 @@ int				send_get_time(t_args *args, pthread_t *get_time_id);
 int				send_start_philos(t_args *args, t_id_store *pthread_ids);
 int				set_forks(t_args *args);
 int				set_threads(t_args *args);
-void			test_print_args(t_args args);
-void			test_print_timeval(struct timeval tv);
 #endif

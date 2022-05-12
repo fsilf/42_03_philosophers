@@ -6,11 +6,10 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 13:12:00 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/10 10:48:54 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:23:01 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "philo.h"
 
@@ -35,12 +34,12 @@ int	main(int argc, char *argv[])
 		cleanup_forks(args.forks, args.mutex_fork);
 		return (1);
 	}
-	test_print_args(args);
 	if (set_threads(&args))
 	{
 		cleanup_forks(args.forks, args.mutex_fork);
 		return (1);
 	}
 	cleanup_forks(args.forks, args.mutex_fork);
+	free(args.counter);
 	return (0);
 }
