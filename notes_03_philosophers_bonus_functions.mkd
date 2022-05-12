@@ -1,0 +1,105 @@
+# Notes 03 Philosophers Bonus Functions
+## `kill`
+`kill` - send signal to a process
+### Synopsis
+```{C}
+#include <sys/types.h>
+#include <signal.h>
+	int kill(pid_t pid, int sig);
+```
+### Description
+- If `pid` is positive, then signal `sig` is sent to the process with the ID specified by `pid`.
+- If `pid` equals 0, then `sig` is sent to every process in the process group of the calling process.
+- If `sig` is 0, then no signal is sent, but existence and permission checks are still performed; this can be used to check for the existence of a process ID or process group ID that the caller is permitted to signal.
+### Return value
+On success (at least one signal was sent), zero is returned.
+On error, -1 is returned, and errno is set appropriately
+
+## `sem_open`
+`sem_open` - initialize and open a named semaphore
+### Synopsis
+```{C}
+#include <semaphore.h>
+sem_t *sem_open(const char *name, int oflag);
+sem_t *sem_open(const char *name, int oflag, mode_t mode, unsigned int value);
+```
+Link with `-pthread`.
+### Description
+- `sem_open()` creates a new POSIX semaphore or opens an existing semaphore. The semaphore is identified by `name`.
+#### `oflag` argument
+- The `oflag` argument specifies flags that control the operation of the call. Definitions of the flags values can be obtained by including `<fcntl.h>`.
+- The `oflag` argument controls whether the semaphore is created or merely accessed by the call to `sem_open()`. It can have the following flag bits set:
+    - `O_CREAT`: If the semaphore does not already exist, `sem_open()` creates it. The `O_CREAT` flag requires two additional arguments: `mode` of type `mode_t`, and `value` of type `unsigned int`. 
+        + The `value` argument specifies the initial value assigned to the newly created semaphore and must be less than or equal to `SEM_VALUE_MAX`.
+        + 
+### Return value
+- On success, `sem_open()` returns the address of the new semaphore; this address  is used when calling other semaphore-related functions.  
+- On error, `sem_open()` returns `SEM_FAILED`, with errno set to indicate the error.
+### Notes
+Semaphores created with `sem_open()` should only be closed with the `sem_close()` function.
+When a process successfully calls the `sem_open()` multiple times with the same name argument, each successful call returns the same semaphore address. The only exception to this is if the `sem_unlink()` function has been called for this semaphore in the meantime.
+### References
+- Linux man
+- [`sem_open()`](https://www.mkssoftware.com/docs/man3/sem_open.3.asp)
+
+## `sem_close()`
+`sem_close` - close a named semaphore
+### Synopsis
+```{C}
+#include <semaphore.h>
+int sem_close(sem_t *sem);
+Link with -pthread.
+```
+### Description
+`sem_close()` closes the named semaphore referred to by sem, allowing any resources that the system has allocated to the calling process for this semaphore to be freed.
+### Return value
+On success `sem_close()` returns 0; on error, -1 is returned, with errno set to indicate the error.
+### Notes
+- All open named semaphores are automatically closed on process termination, or upon `execve(2)`, but a semaphore should be closed when it is no longer used. 
+- Using a semaphore after it has been closed will result in an error.
+- If a `sem_unlink()` was performed previously for the semaphore and the current process holds the last reference to the semaphore, then the named semaphore will be deleted and removed from the system.
+### References
+- linux man
+
+## `sem_unlink()`
+`sem_unlink` - remove a named semaphore
+### Synopsis
+```{C}
+#include <semaphore.h>
+int sem_unlink(const char *name);
+Link with -pthread.
+```
+### Description
+`sem_unlink()` removes the named semaphore referred to by name. The semaphore name is removed immediately. The semaphore is destroyed once all other processes that have the semaphore open close it.
+### References
+- linux man
+
+## `sem_pos()`
+`sem_post` - unlock a semaphore
+### Synopsis
+```{C}
+#include <semaphore.h>
+int sem_post(sem_t *sem);
+Link with -pthread.
+```
+### Description
+`sem_post()` increments (unlocks) the semaphore pointed to by sem. If the semaphore's value consequently becomes greater than zero, then another process or thread blocked in a `sem_wait()` call will be woken up and proceed to lock the semaphore.
+### References
+- linux man
+
+## `sem_wait()`
+`sem_wait` - lock a semaphore
+### Synopsis
+```{C}
+#include <semaphore.h>
+int sem_wait(sem_t *sem);
+Link with -pthread.
+```
+### Description
+`sem_wait()` decrements (locks) the semaphore pointed to by sem. If the semaphore's value is greater than zero, then the decrement proceeds, and the function returns, immediately.  If the semaphore currently has the value zero, then the call blocks until either it becomes possible to perform the decrement (i.e., the semaphore value rises above zero), or a signal handler interrupts the call.
+### References
+- linux man
+
+## Other allowed functions
+`exit()`, `fork()`, `pthread_create()`, `pthread_join()`, `pthread_detach()`, `waitpid()`
+
