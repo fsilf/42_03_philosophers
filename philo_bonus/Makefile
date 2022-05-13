@@ -15,9 +15,10 @@ SRC =	main.c\
 		send_check_num_loops.c\
 		send_get_time.c\
 		send_start_philos.c\
+		set_philo_args.c\
 		set_processes.c\
+		set_semaphores.c\
 		timer.c\
-		test_prints.c\
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 INC = $(addprefix -I, $(INC_DIR))
