@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 03:38:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 12:53:15 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	take_forks(t_philo_args *philo)
 	if (print_msg(philo, 'f'))
 	{
 		sem_post(philo->args->forks);
-		return (0);
+		return (1);
 	}
 	sem_wait(philo->args->forks);
 	sem_wait(philo->args->sem_death);
@@ -43,24 +43,24 @@ static int	take_forks(t_philo_args *philo)
 	if (print_msg(philo, 'e'))
 	{
 		release_forks_and_set_sleep(philo);
-		return (0);
+		return (1);
 	}
 	return (0);
 }
 
 int	philo_cycle(t_philo_args *philo)
 {
-	philo->args->mu_init = philo->args->mu_init + \
+	if (philo->args->num_philo > 10)
+	{
+		philo->args->mu_init = philo->args->mu_init + \
 									(philo->args->num_philo * 1150);
-	philo->life = philo->args->mu_init + (philo->args->time_life * 1000);
+		philo->life = philo->args->mu_init + (philo->args->time_life * 1000);
+	}
 	usleep(800);
 	while (1)
 	{
 		if (take_forks(philo))
-		{
-			write(2, "philo_cycle: take_forks error", 29);
-			return (1);
-		}
+			return (0);
 		if (custom_sleep(philo, philo->args->time_eat))
 		{
 			release_forks_and_set_sleep(philo);
@@ -72,8 +72,7 @@ int	philo_cycle(t_philo_args *philo)
 			return (0);
 		if (print_msg(philo, 't'))
 			return (1);
-		if (philo->args->num_philo < 10)
-			usleep(1000);
+		usleep(100);
 	}
 	return (0);
 }

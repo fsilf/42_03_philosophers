@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:34:40 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 02:47:47 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 12:33:28 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static int	wait_for_processes(t_id_store *pids, ssize_t num_philo)
 	}
 	if (pids->loops_id != -1)
 	{
+		kill(pids->loops_id, SIGKILL);
 		wid = waitpid(-1, NULL, 0);
 		if (wid == -1)
 		{

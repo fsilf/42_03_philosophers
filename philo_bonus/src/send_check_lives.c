@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 03:38:10 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 04:16:39 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	*thread_lives(void *arg)
 			print_msg(philo, 'd');
 			philo->args->end = 1;
 			sem_post(philo->args->sem_death);
+			exit(EXIT_SUCCESS);
 			return (NULL);
 		}
 		sem_post(philo->args->sem_death);
