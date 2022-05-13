@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:57:07 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 14:22:03 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:31:53 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	*thread_get_time(void *arg)
 	long unsigned	mu_curr;
 
 	args = arg;
+	if (args->num_philo == 1)
+		return (NULL);
 	while (args->end == 0)
 	{
 		gettimeofday(&curr_time, NULL);

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 19:40:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 14:23:32 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:33:14 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	print_msg(t_philo_args *philo, char type)
 		return (1);
 	}
 	ms_since = ms_since / 1000;
-	printf("%ld %zd %s\n", ms_since, philo->philo, msg);
+	printf("%ld %zd %s\n", ms_since, philo->philo + 1, msg);
 	if (type == 'e')
 	{
 		free(msg);
 		get_msg(&msg, 'r');
-		printf("%ld %zd %s\n", ms_since, philo->philo, msg);
+		printf("%ld %zd %s\n", ms_since, philo->philo + 1, msg);
 	}
 	pthread_mutex_unlock(&(philo->args->mutex_print));
 	free(msg);

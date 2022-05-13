@@ -6,10 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 13:30:20 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:44:10 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "philo_bonus.h"
 
@@ -55,6 +56,12 @@ int	process_argv(int argc, char **argv, t_args *args)
 	get_input_args(argc, args, argv, &err);
 	if (err == 1)
 		return (1);
+	if (args->num_philo == 1)
+	{
+		printf("0 1 has taken a fork\n");
+		printf("%zd 1 died\n", args->time_life + 1);
+		return (1);
+	}
 	if (set_semaphores(args))
 		return (1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 17:33:13 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:41:42 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ static int	assign_forks(t_philo_args *philo)
 {
 	if (philo->args->num_philo == 1)
 	{
-		gettimeofday(&(philo->args->tv_init), NULL);
-		printf("0 0 has taken a fork\n");
-		printf("%zd 0 died\n", philo->args->time_life + 1);
+		printf("0 1 has taken a fork\n");
+		printf("%zd 1 died\n", philo->args->time_life + 1);
 		return (1);
 	}
 	if (philo->philo % 2 == 0)

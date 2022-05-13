@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 19:40:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 23:53:57 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:55:17 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	print_msg(t_philo_args *philo, char type)
 	sem_wait(philo->args->sem_print);
 	ms_since = philo->args->mu_since;
 	ms_since = ms_since / 1000;
-	printf("%ld %zd %s\n", ms_since, philo->philo, msg);
+	printf("%ld %zd %s\n", ms_since, philo->philo + 1, msg);
 	if (type == 'e')
 	{
 		free(msg);
 		get_msg(&msg, 'r');
-		printf("%ld %zd %s\n", ms_since, philo->philo, msg);
+		printf("%ld %zd %s\n", ms_since, philo->philo + 1, msg);
 	}
 	sem_post(philo->args->sem_print);
 	free(msg);
