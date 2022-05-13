@@ -6,12 +6,13 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 17:58:48 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 03:38:10 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "philo.h"
+#include <stdlib.h>
+#include "philo_bonus.h"
 
 static void	*thread_lives(void *arg)
 {
@@ -22,21 +23,18 @@ static void	*thread_lives(void *arg)
 		usleep(50);
 	while (1)
 	{
-		if (pthread_mutex_lock(&(philo->args->mutex_death)))
-			perror("thread_lives: mutex_lock mutex_death");
 		if (philo->args->end == 1)
-		{
-			pthread_mutex_unlock(&(philo->args->mutex_death));
 			return (NULL);
-		}
+		if (sem_wait(philo->args->sem_death))
+			perror("thread_lives: sem_wait sem_death");
 		if (philo->args->mu_since > philo->life)
 		{
 			print_msg(philo, 'd');
 			philo->args->end = 1;
-			pthread_mutex_unlock(&(philo->args->mutex_death));
+			sem_post(philo->args->sem_death);
 			return (NULL);
 		}
-		pthread_mutex_unlock(&(philo->args->mutex_death));
+		sem_post(philo->args->sem_death);
 		usleep(800);
 	}
 	return (NULL);

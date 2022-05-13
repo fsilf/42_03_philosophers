@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 15:43:09 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 14:20:45 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 03:48:13 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static int	init_pthread_philo_ids(t_id_store *pthread_ids, ssize_t num_philo)
 								sizeof (pthread_t) * num_philo);
 	if (pthread_ids->philo_ids == NULL)
 	{
-		perror("send_start_philos: malloc");
+		perror("init_pthread_philos_ids: malloc");
 		return (1);
 	}
 	ft_memset(pthread_ids->philo_ids, 0, sizeof (pthread_t) * num_philo);
 	return (0);
 }
 
-int	wait_for_threads(t_id_store *pthread_ids, ssize_t num_philo)
+static int	wait_for_threads(t_id_store *pthread_ids, ssize_t num_philo)
 {
 	ssize_t	i;
 

@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 14:24:52 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/12 17:33:13 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	assign_forks(t_philo_args *philo)
 	return (0);
 }
 
-int	set_philo_args(t_args *args, t_philo_args *philo)
+static int	set_philo_args(t_args *args, t_philo_args *philo)
 {
 	ft_memset(philo, 0, sizeof (t_philo_args));
 	philo->philo = args->philo;
