@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:09:49 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 03:25:22 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:21:06 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <limits.h>
 
 typedef struct args
 {
@@ -43,7 +42,6 @@ typedef struct s_id_store
 {
 	pid_t		*philo_ids;
 	pid_t		loops_id;
-	pthread_t	get_time_id;
 }	t_id_store;
 
 typedef struct s_philo_args
@@ -73,8 +71,8 @@ int				send_check_lives(t_philo_args *philo);
 int				send_check_num_loops(t_args *args, pid_t *loop_id);
 int				send_get_time(t_args *args, pthread_t *get_time_id);
 int				send_start_philos(t_args *args, t_id_store *pids);
+int				set_philo_args(t_args *args, t_philo_args *philo);
 int				set_processes(t_args *args);
-void			test_print_args(t_args args);
-void			test_print_timeval(struct timeval tv);
+int				set_semaphores(t_args *args);
 int				unlink_semaphores(t_args args);
 #endif

@@ -6,11 +6,10 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:08:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 02:47:57 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:21:30 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "philo_bonus.h"
 
@@ -23,7 +22,7 @@ int	unlink_semaphores(t_args args)
 	name[0] = 'c';
 	name[1] = 'o';
 	name[3] = '\0';
-	while(i < args.num_philo)
+	while (i < args.num_philo)
 	{
 		name[2] = (char)i + 48;
 		sem_unlink(name);
@@ -43,10 +42,8 @@ int	main(int argc, char *argv[])
 
 	if (process_argv(argc, argv, &args))
 		return (1);
-	test_print_args(args);
 	if (set_processes(&args))
 		return (1);
-	printf("llega aqui????\n");
 	unlink_semaphores(args);
 	free(args.counter);
 	return (0);

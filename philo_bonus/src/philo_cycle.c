@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 00:03:56 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 12:53:15 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:56:59 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	philo_cycle(t_philo_args *philo)
 		if (custom_sleep(philo, philo->args->time_sleep))
 			return (0);
 		if (print_msg(philo, 't'))
-			return (1);
+			return (0);
 		usleep(100);
 	}
 	return (0);
