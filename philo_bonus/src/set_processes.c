@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:34:40 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 14:18:30 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/15 14:03:14 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	init_process_philo_ids(t_id_store *pids, ssize_t num_philo)
 	pids->philo_ids = (pid_t *)malloc(sizeof (pid_t) * num_philo);
 	if (pids->philo_ids == NULL)
 	{
-		perror("init_process_philo_ids");
+		write(2, "init_process_philo_ids\n", 24);
 		return (1);
 	}
 	ft_memset(pids->philo_ids, 0, sizeof (pid_t) * num_philo);
@@ -40,7 +40,7 @@ static int	wait_for_num_loops_process(pid_t loops_id)
 		wid = waitpid(-1, NULL, 0);
 		if (wid == -1)
 		{
-			perror("wait_for_processes: philo_ids");
+			write(2, "wait_for_processes: philo_ids\n", 30);
 			return (1);
 		}
 	}
@@ -78,7 +78,7 @@ static int	wait_for_processes(t_id_store *pids, ssize_t num_philo)
 		wid = waitpid(-1, NULL, 0);
 		if (wid == -1)
 		{
-			perror("wait_for_processes: philo_ids");
+			write(2, "wait_for_processes: philo_ids\n", 30);
 			return (1);
 		}
 		kill_philo_processes(pids, num_philo, &once, wid);

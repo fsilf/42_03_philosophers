@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 19:48:53 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 04:16:39 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:34:04 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	*thread_lives(void *arg)
 		if (philo->args->end == 1)
 			return (NULL);
 		if (sem_wait(philo->args->sem_death))
-			perror("thread_lives: sem_wait sem_death");
+			write(2, "thread_lives: sem_wait sem_death\n", 33);
 		if (philo->args->mu_since > philo->life)
 		{
 			print_msg(philo, 'd');
@@ -45,7 +45,7 @@ int	send_check_lives(t_philo_args *philo)
 {
 	if (pthread_create(&(philo->lives_id), NULL, &thread_lives, (void *)philo))
 	{
-		perror("send_check_lives: pthread_create:");
+		write(2, "send_check_lives: pthread_create:\n", 35);
 		return (1);
 	}
 	return (0);

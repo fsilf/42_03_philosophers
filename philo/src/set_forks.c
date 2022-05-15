@@ -6,11 +6,10 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/08 13:46:23 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/08 14:44:53 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:22:16 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "philo.h"
 
@@ -24,14 +23,14 @@ static int	init_mutex_forks(pthread_mutex_t **mutex_fork, ssize_t num_philo)
 												num_philo);
 	if (*mutex_fork == NULL)
 	{
-		perror("init_mutex_fork: malloc:");
+		write(2, "init_mutex_fork: malloc\n", 24);
 		return (1);
 	}
 	while (i < num_philo)
 	{
 		if (pthread_mutex_init(&((*mutex_fork)[i]), NULL))
 		{
-			perror("init_mutex_fork: mutex_init:");
+			write(2, "init_mutex_fork: mutex_init\n", 24);
 			return (1);
 		}
 		i++;
@@ -45,7 +44,7 @@ static int	init_forks(ssize_t **forks, ssize_t	num_philos)
 	*forks = (ssize_t *)malloc(sizeof (ssize_t) * num_philos);
 	if (*forks == NULL)
 	{
-		perror ("init_forks: malloc");
+		write(2, "init_forks: malloc\n", 19);
 		return (1);
 	}
 	ft_memset(*forks, 0, sizeof (ssize_t) * num_philos);

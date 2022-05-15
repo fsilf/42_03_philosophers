@@ -6,12 +6,11 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 15:43:09 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 03:48:13 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:24:12 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 #include "philo.h"
 
 static int	init_pthread_philo_ids(t_id_store *pthread_ids, ssize_t num_philo)
@@ -21,7 +20,7 @@ static int	init_pthread_philo_ids(t_id_store *pthread_ids, ssize_t num_philo)
 								sizeof (pthread_t) * num_philo);
 	if (pthread_ids->philo_ids == NULL)
 	{
-		perror("init_pthread_philos_ids: malloc");
+		write(2, "init_pthread_philos_ids: malloc\n", 32);
 		return (1);
 	}
 	ft_memset(pthread_ids->philo_ids, 0, sizeof (pthread_t) * num_philo);
@@ -37,14 +36,14 @@ static int	wait_for_threads(t_id_store *pthread_ids, ssize_t num_philo)
 	{
 		if (pthread_join(pthread_ids->philo_ids[i], NULL))
 		{
-			perror("wait_for_threads: pthread_join philo_ids");
+			write(2, "wait_for_threads: pthread_join philo_ids\n", 41);
 			return (1);
 		}
 		i++;
 	}
 	if (pthread_join(pthread_ids->get_time_id, NULL))
 	{
-		perror("wait_for_threads: pthread_join get_time_id");
+		write(2, "wait_for_threads: pthread_join get_time_id\n", 43);
 		return (1);
 	}
 	return (0);

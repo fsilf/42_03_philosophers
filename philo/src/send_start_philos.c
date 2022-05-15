@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/04 14:26:48 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 16:41:42 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:20:22 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	*thread_philo(void *arg)
 	philo_cycle(&philo);
 	if (pthread_join(philo.lives_id, NULL))
 	{
-		perror("thread_philo: pthread_join lives_id");
+		write(2, "thread_philo: pthread_join lives_id\n", 36);
 		return (NULL);
 	}
 	return (NULL);
@@ -108,7 +108,7 @@ int	send_start_philos(t_args *args, t_id_store *pthread_ids)
 		if (pthread_create(&(pthread_ids->philo_ids[i]), NULL, \
 							&thread_philo, args))
 		{
-			perror("send_start_philos: pthread_create");
+			write(2, "send_start_philos: pthread_create\n", 34);
 			return (1);
 		}
 		usleep(1000);

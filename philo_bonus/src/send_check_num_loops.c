@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:45:15 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 02:49:28 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:36:40 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	run_check_num_loops(t_args *args)
 		name[2] = (char)i + 48;
 		args->counter[i] = sem_open(name, O_RDWR);
 		if (args->counter[i] == SEM_FAILED)
-			perror("run_check_num_loops: sem_open");
+			write(2, "run_check_num_loops: sem_open\n", 30);
 		i++;
 	}
 	i = 0;
 	while (i < args->num_philo)
 	{
 		if (sem_wait(args->counter[i]))
-			perror("run_check_num_loops: sem_wait");
+			write(2, "run_check_num_loops: sem_wait\n", 30);
 		i++;
 	}
 	return (0);
@@ -52,7 +52,7 @@ int	send_check_num_loops(t_args *args, pid_t *loops_id)
 	*loops_id = fork();
 	if (*loops_id == -1)
 	{
-		perror("send_check_num_loops: fork");
+		write(2, "send_check_num_loops: fork\n", 27);
 		return (1);
 	}
 	else if (*loops_id == 0)

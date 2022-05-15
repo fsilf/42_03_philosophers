@@ -6,11 +6,10 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 11:06:22 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/12 14:20:21 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:24:53 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "philo.h"
 
@@ -55,7 +54,7 @@ static int	init_counter(t_args *args)
 	args->counter = (ssize_t *)malloc(sizeof (ssize_t) * args->num_philo);
 	if (args->counter == NULL)
 	{
-		perror("init_counter: malloc");
+		write(2, "init_counter: malloc\n", 21);
 		return (1);
 	}
 	ft_memset(args->counter, 0, sizeof(ssize_t) * args->num_philo);
@@ -66,17 +65,17 @@ static int	init_mutexes(t_args *args)
 {
 	if (pthread_mutex_init(&(args->mutex_philo), NULL))
 	{
-		perror("process_argv: mutex init mutex_philo");
+		write(2, "process_argv: mutex init mutex_philo\n", 37);
 		return (1);
 	}
 	if (pthread_mutex_init(&(args->mutex_death), NULL))
 	{
-		perror("process_argv: mutex init mutex_death");
+		write(2, "process_argv: mutex init mutex_death\n", 37);
 		return (1);
 	}
 	if (pthread_mutex_init(&(args->mutex_print), NULL))
 	{
-		perror("process_argv: mutex init mutex_print");
+		write(2, "process_argv: mutex init mutex_print\n", 37);
 		return (1);
 	}
 	return (0);

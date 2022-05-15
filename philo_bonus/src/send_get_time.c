@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduli>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 15:57:07 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 03:38:15 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/15 13:53:44 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	send_get_time(t_args *args, pthread_t *get_time_id)
 {
 	if (pthread_create(get_time_id, NULL, &thread_get_time, args))
 	{
-		perror("send_get_time: pthread_create");
+		write(2, "send_get_time: pthread_create\n", 30);
 		return (1);
 	}
 	return (0);

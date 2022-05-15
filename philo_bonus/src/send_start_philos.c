@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 17:22:45 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 14:02:30 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/15 13:56:53 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static int	wait_for_pthreads(pthread_t lives_id, pthread_t get_time_id)
 {
 	if (pthread_join(lives_id, NULL))
 	{
-		perror("run_philo: pthread_join lives_id");
+		write(2, "run_philo: pthread_join lives_id\n", 33);
 		return (1);
 	}
 	if (pthread_join(get_time_id, NULL))
 	{
-		perror("run_philo: pthread_join lives_id");
+		write(2, "run_philo: pthread_join get_time_id\n", 36);
 		return (1);
 	}
 	return (0);
@@ -75,7 +75,7 @@ static int	start_philos_loop(t_args *args, t_id_store *pids)
 		pids->philo_ids[i] = fork();
 		if (pids->philo_ids[i] == -1)
 		{
-			perror("send_start_philos: fork");
+			write(2, "send_start_philos: fork\n", 24);
 			return (1);
 		}
 		else if (pids->philo_ids[i] == 0)

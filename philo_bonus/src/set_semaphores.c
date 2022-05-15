@@ -6,7 +6,7 @@
 /*   By: fsilva-f <fsilva-f@student.42urduliz.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 13:27:34 by fsilva-f          #+#    #+#             */
-/*   Updated: 2022/05/13 13:37:02 by fsilva-f         ###   ########.fr       */
+/*   Updated: 2022/05/15 14:02:18 by fsilva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	set_counter_semaphores(t_args *args)
 		args->counter[i] = sem_open(name, O_CREAT | O_EXCL, 0660, 0);
 		if (args->counter[i] == SEM_FAILED)
 		{
-			perror("set_semaphores: counter open");
+			write(2, "set_semaphores: counter open\n", 29);
 			return (1);
 		}
 		i++;
@@ -46,7 +46,7 @@ static int	init_counter(t_args *args)
 	args->counter = (sem_t **)malloc(sizeof (sem_t *) * args->num_philo);
 	if (args->counter == NULL)
 	{
-		perror("init_counter: malloc");
+		write(2, "init_counter: malloc\n", 21);
 		return (1);
 	}
 	ft_memset((args->counter), 0, sizeof(sem_t *) * args->num_philo);
@@ -60,19 +60,19 @@ static int	set_semaphores_some(t_args *args)
 	args->forks = sem_open("forks", O_CREAT | O_EXCL, 0660, 0);
 	if (args->forks == SEM_FAILED)
 	{
-		perror("set_semaphores: forks open");
+		write(2, "set_semaphores: forks open\n", 27);
 		return (1);
 	}
 	args->sem_death = sem_open("death", O_CREAT | O_EXCL, 0660, 1);
 	if (args->sem_death == SEM_FAILED)
 	{
-		perror("set_semaphores: sem_death open");
+		write(2, "set_semaphores: sem_death open\n", 31);
 		return (1);
 	}
 	args->sem_philo = sem_open("philo", O_CREAT, 0660, 1);
 	if (args->sem_philo == SEM_FAILED)
 	{
-		perror("set_semaphores: sem_philo open");
+		write(2, "set_semaphores: sem_philo open\n", 31);
 		return (1);
 	}
 	return (0);
@@ -86,13 +86,13 @@ int	set_semaphores(t_args *args)
 	args->sem_print = sem_open("print", O_CREAT, 0660, 1);
 	if (args->sem_print == SEM_FAILED)
 	{
-		perror("set_semaphores: sem_print open");
+		write(2, "set_semaphores: sem_print open\n", 31);
 		return (1);
 	}
 	args->sem_start = sem_open("start", O_CREAT, 0660, 1);
 	if (args->sem_start == SEM_FAILED)
 	{
-		perror("set_semaphores: sem_start open");
+		write(2, "set_semaphores: sem_start open\n", 31);
 		return (1);
 	}
 	if (init_counter(args))
